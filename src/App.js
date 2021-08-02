@@ -1,9 +1,17 @@
+import Container from 'react-bootstrap/Container';
+// import Button from 'react-bootstrap/Button';
+import TopBar from './components/TopBar';
+
 const App = () => {
-  const handle = () => true;
+  const check = 'string';
+  console.log(check);
 
   return (
     <>
-      <h1>Hello world</h1>
+      <TopBar />
+      <Container>
+        <p>This is a sample text</p>
+      </Container>
     </>
   );
 };
