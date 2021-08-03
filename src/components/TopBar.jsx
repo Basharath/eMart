@@ -5,13 +5,16 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
+import logo from '../images/Logo.png';
+import NavItem from '../common/NavItem';
 
 export default function TopBar() {
   return (
     <Navbar bg="primary" expand="lg" variant="dark">
       <Container>
         <Navbar.Brand href="/" className="fs-2">
-          eMart
+          <img src={logo} style={{ height: '50px' }} alt="emart-log" />
+          {/* eMart */}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" className="no-focus" />
         <Navbar.Collapse id="navbarScroll" className="">
@@ -29,22 +32,10 @@ export default function TopBar() {
             </InputGroup>
           </Form>
           <Nav className="mr-2" navbarScroll>
-            <Nav.Link href="#action2" className="text-light m-auto">
-              <i className="fas fa-receipt fs-5" />
-              <span className="p-2">Orders</span>
-            </Nav.Link>
-            <Nav.Link href="#action3" className="m-auto text-light">
-              <i className="fas fa-shopping-cart fs-5 " />
-              <span className="p-2">Cart</span>
-            </Nav.Link>
-            {/* <Nav.Link href="#action1" className="text-light m-auto">
-              <i className="fas fa-sign-out-alt fs-5" />
-              <span className="p-2">Basharath</span>
-            </Nav.Link> */}
-            <Nav.Link href="#action1" className="text-light m-auto">
-              <i className="fas fa-user fs-5" />
-              <span className="p-2">Login</span>
-            </Nav.Link>
+            <NavItem url="#action1" icon="receipt" text="Orders" />
+            <NavItem url="#action2" icon="shopping-cart" text="Cart" />
+            <NavItem url="#action3" icon="user" text="Login" />
+            {/* <NavItem url="#action3" icon="sign-out-alt" text="Basharath" /> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -17,6 +17,7 @@
     "comma-dangle": "off",
     "react/react-in-jsx-scope": "off",
     "no-console": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "react/prop-types": "off"
   }
 }
