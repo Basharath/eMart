@@ -1,16 +1,26 @@
+import { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 // import Button from 'react-bootstrap/Button';
+import { useSelector, useDispatch } from 'react-redux';
 import TopBar from './components/TopBar';
+import { getProducts } from './actions/products';
 
 const App = () => {
-  const check = 'string';
-  console.log(check);
+  // const [id, setId] = useState(0);
+  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
 
   return (
     <>
       <TopBar />
       <Container>
-        <p>This is a sample text</p>
+        {products.map((p) => (
+          <div key={p._id}>{p.name}</div>
+        ))}
       </Container>
     </>
   );
