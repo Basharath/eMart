@@ -8,8 +8,10 @@ const categoriesUrl = `${url}/categories`;
 const usersUrl = `${url}/users`;
 
 export const getProducts = () => axios.get(productsUrl);
+export const getProduct = (id) => axios.get(id);
 export const addProduct = (newProduct) => axios.post(productsUrl, newProduct);
-export const updateProduct = (newProduct) => axios.put(productsUrl, newProduct);
+export const updateProduct = (id, product) =>
+  axios.put(`${productsUrl}/${id}`, product);
 export const deleteProduct = (id) => axios.delete(`${productsUrl}/${id}`);
 export const rateProduct = (id, rating) =>
   axios.patch(`${productsUrl}/${id}`, rating);
