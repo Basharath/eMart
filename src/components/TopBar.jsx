@@ -1,6 +1,5 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
@@ -32,9 +31,9 @@ export default function TopBar() {
             </InputGroup>
           </Form>
           <Nav className="mr-2" navbarScroll>
-            <NavItem url="#action1" icon="receipt" text="Orders" />
-            <NavItem url="#action2" icon="shopping-cart" text="Cart" />
-            <NavItem url="#action3" icon="user" text="Login" />
+            <NavItem url="/orders" icon="receipt" text="Orders" />
+            <NavItem url="/cart" icon="shopping-cart" text="Cart" />
+            <NavItem url="login" icon="user" text="Login" />
             {/* <NavItem url="#action3" icon="sign-out-alt" text="Basharath" /> */}
           </Nav>
         </Navbar.Collapse>
