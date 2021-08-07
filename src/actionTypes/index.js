@@ -1,5 +1,5 @@
-export const FETCH_ALL = 'FETCH_ALL';
-export const FETCH_ONE = 'FETCH_ONE';
-export const DELETE_ONE = 'DELETE_ONE';
-export const UPDATE_ONE = 'UPDATE_ONE';
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const GET_PRODUCT = 'GET_PRODUCT';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const RATE_PRODUCT = 'RATE_PRODUCT';
