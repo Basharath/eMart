@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-// import Button from 'react-bootstrap/Button';
-import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import TopBar from './components/TopBar';
 import { getProducts } from './actions/products';
+import Login from './components/Login';
+import Orders from './components/Orders';
+import Cart from './components/Cart';
+import Home from './components/Home';
 
 const App = () => {
-  // const [id, setId] = useState(0);
-  const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,12 +18,17 @@ const App = () => {
 
   return (
     <>
-      <TopBar />
-      <Container>
-        {products.map((p) => (
-          <div key={p._id}>{p.name}</div>
-        ))}
-      </Container>
+      <BrowserRouter>
+        <TopBar />
+        <Container>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/orders" component={Orders} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/" component={Home} />
+          </Switch>
+        </Container>
+      </BrowserRouter>
     </>
   );
 };
