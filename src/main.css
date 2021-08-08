@@ -12,16 +12,37 @@ button:active:focus {
 
 .no-border:focus,
 .no-focus:focus,
-.no-focus:active {
+.no-focus:active:focus {
   outline: none;
   box-shadow: none;
 }
 
-@media (max-width: 540px) {
+.dropdown:hover .dropdown-menu {
+  display: block !important;
+}
+
+.dropdown .dropdown-menu {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;
     width: 90% !important;
   }
+  .dropdown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .dropdown-menu {
+    width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
 }
 
 @media (min-width: 1024px) {

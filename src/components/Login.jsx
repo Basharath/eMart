@@ -154,7 +154,6 @@ export default function Login() {
             </Form.Text>
           </Form.Group>
         )}
-        {/* {error.status && <p className="alert alert-danger">{error.message}</p>} */}
         <Button
           variant="primary"
           type="submit"

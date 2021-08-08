@@ -1,20 +1,26 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../images/Logo.png';
 import NavItem from '../common/NavItem';
 import { logout } from '../actions/auth';
+import { getCart } from '../api';
 
-export default function TopBar() {
-  const { authData } = useSelector((state) => state.auth);
+export default function TopBar({ user }) {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const handleCart = async () => {
+    const { data } = await getCart();
+    console.log('cart', data);
   };
 
   return (
@@ -41,14 +47,34 @@ export default function TopBar() {
           </Form>
           <Nav className="mr-2" navbarScroll>
             <NavItem url="/orders" icon="receipt" text="Orders" />
-            <NavItem url="/cart" icon="shopping-cart" text="Cart" />
-            {authData ? (
-              <NavItem
-                url="/login"
-                icon="sign-out-alt"
-                text={authData.name}
-                onClick={handleLogout}
-              />
+            <NavItem
+              url="/cart"
+              icon="shopping-cart"
+              text="Cart"
+              onClick={handleCart}
+            />
+            {user ? (
+              // <NavItem
+              //   url="/login"
+              //   icon="sign-out-alt"
+              //   text={authData.name}
+              //   onClick={handleLogout}
+              // />
+              <NavDropdown
+                title={
+                  <span className="text-light">
+                    {user.name ? user.name : 'User Name'}
+                  </span>
+                }
+                className="p-1"
+              >
+                <NavDropdown.Item>Account</NavDropdown.Item>
+                <NavDropdown.Item>Wishlist</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
             ) : (
               <NavItem url="login" icon="user" text="Login" />
             )}

@@ -1,26 +1,33 @@
 import { useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import TopBar from './components/TopBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import Container from 'react-bootstrap/Container';
 import { getProducts } from './actions/products';
+import { getUser } from './actions/auth';
+
+import TopBar from './components/TopBar';
 import Login from './components/Login';
 import Orders from './components/Orders';
 import Cart from './components/Cart';
 // import Home from './components/Home';
 import Products from './components/Products';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { authData: user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getUser());
   }, []);
 
   return (
     <>
       <BrowserRouter>
-        <TopBar />
+        <ToastContainer />
+        <TopBar user={user} />
         <Container>
           <Switch>
             <Route path="/login" component={Login} />
