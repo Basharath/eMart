@@ -7,7 +7,8 @@ import { getProducts } from './actions/products';
 import Login from './components/Login';
 import Orders from './components/Orders';
 import Cart from './components/Cart';
-import Home from './components/Home';
+// import Home from './components/Home';
+import Products from './components/Products';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const App = () => {
             <Route path="/login" component={Login} />
             <Route path="/orders" component={Orders} />
             <Route path="/cart" component={Cart} />
-            <Route path="/" component={Home} />
+            <Route path="/" component={Products} />
           </Switch>
         </Container>
       </BrowserRouter>
