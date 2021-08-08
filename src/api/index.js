@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'https://emartt.herokuapp.com/api';
+const url = process.env.REACT_APP_API_URL;
 const productsUrl = `${url}/products`;
 const ordersUrl = `${url}/orders`;
 const cartUrl = `${url}/cart`;
