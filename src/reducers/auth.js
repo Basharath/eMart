@@ -3,7 +3,7 @@ import { AUTH, LOGOUT } from '../actionTypes';
 const authReducer = (state = { authData: null }, action) => {
   switch (action.type) {
     case AUTH:
-      localStorage.setItem('user', JSON.stringify({ ...action.payload }));
+      localStorage.setItem('token-emart', JSON.stringify(action.payload.token));
       return { ...state, authData: action.payload };
 
     case LOGOUT:
