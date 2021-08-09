@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
@@ -16,12 +16,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { authData: user } = useSelector((state) => state.auth);
+  const { authData } = useSelector((state) => state.auth);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getUser());
-  }, []);
+    setUser(authData);
+  }, [authData]);
 
   return (
     <>

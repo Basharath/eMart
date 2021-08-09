@@ -24,10 +24,10 @@ export const signup = (userData, router) => async (dispatch) => {
   }
 };
 
-export const getUser = () => (dispatch) => {
+export const getUser = () => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem('token-emart'));
-    const userData = token && jwtDecode(token);
+    const userData = token && (await jwtDecode(token));
 
     dispatch({ type: GET_USER, payload: userData });
   } catch (err) {

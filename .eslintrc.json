@@ -11,15 +11,15 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "prettier"],
   "rules": {
-    "react/jsx-filename-extension": "off",
-    "comma-dangle": "off",
     "react/react-in-jsx-scope": "off",
     "no-console": "off",
-    "linebreak-style": "off",
     "react/prop-types": "off",
+    "comma-dangle": "off",
     "no-underscore-dangle": "off",
-    "implicit-arrow-linebreak": "off"
+    "react/jsx-filename-extension": "off"
+    // "linebreak-style": "off",
+    // "implicit-arrow-linebreak": "off"
   }
 }

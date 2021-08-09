@@ -54,18 +54,8 @@ export default function TopBar({ user }) {
               onClick={handleCart}
             />
             {user ? (
-              // <NavItem
-              //   url="/login"
-              //   icon="sign-out-alt"
-              //   text={authData.name}
-              //   onClick={handleLogout}
-              // />
               <NavDropdown
-                title={
-                  <span className="text-light">
-                    {user.name ? user.name : 'User Name'}
-                  </span>
-                }
+                title={<span className="text-light">{user.name}</span>}
                 className="p-1"
               >
                 <NavDropdown.Item>Account</NavDropdown.Item>
