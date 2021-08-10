@@ -6,7 +6,7 @@ import {
   DELETE_PRODUCT,
 } from '../actionTypes';
 
-export default (state = [], action) => {
+const productReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return { ...state, products: action.payload };
@@ -35,3 +35,5 @@ export default (state = [], action) => {
       return state;
   }
 };
+
+export default productReducer;
