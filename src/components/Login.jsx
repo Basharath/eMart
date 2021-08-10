@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -10,10 +11,12 @@ import { AUTH_ERROR } from '../actionTypes/index';
 
 const initialState = { name: '', email: '', password: '', confirmPassword: '' };
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(
-    JSON.parse(localStorage.getItem('login'))
-  );
+  const localData = JSON.parse(localStorage.getItem('auth'));
+  const [isLogin, setIsLogin] = useState(localData ? !localData.signup : true);
   const [form, setForm] = useState(initialState);
+  const [isVendor, setIsVendor] = useState(
+    localData ? localData.vendor : false
+  );
   const [errors, setErrors] = useState({});
 
   const { error: authError } = useSelector((state) => state.auth);
@@ -25,13 +28,6 @@ export default function Login() {
     const errs = { ...errors, auth: authError };
     setErrors(errs);
   }, [authError]);
-
-  const switchMode = () => {
-    setForm(() => initialState);
-    localStorage.setItem('login', JSON.stringify(!isLogin));
-    setIsLogin((prevState) => !prevState);
-    dispatch({ type: AUTH_ERROR, payload: null });
-  };
 
   // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const formSchema = {
@@ -88,7 +84,7 @@ export default function Login() {
 
     const { name, email, password } = form;
     const loginData = { email, password };
-    const signupData = { name, email, password };
+    const signupData = { name, email, password, ...(isVendor && { isVendor }) };
 
     const data = isLogin ? loginData : form;
     const errs = validateForm(data);
@@ -99,12 +95,54 @@ export default function Login() {
     else dispatch(signup(signupData, location, history));
   };
 
+  const switchMode = () => {
+    setForm(() => initialState);
+    localStorage.setItem(
+      'auth',
+      JSON.stringify({ signup: isLogin, vendor: false })
+    );
+    setIsLogin((prevState) => !prevState);
+    setIsVendor(false);
+    dispatch({ type: AUTH_ERROR, payload: null });
+  };
+
+  const handleVendorSignup = () => {
+    setIsVendor(true);
+    setIsLogin(false);
+    localStorage.setItem(
+      'auth',
+      JSON.stringify({ signup: true, vendor: true })
+    );
+  };
+
+  const handleVendorWarning = () => {
+    setIsVendor(false);
+    localStorage.setItem(
+      'auth',
+      JSON.stringify({ signup: true, vendor: false })
+    );
+  };
+
   return (
     <div
-      className="mt-5 d-flex justify-content-center align-items-center"
+      className="mt-5 d-flex flex-column justify-content-center align-items-center"
       style={{}}
     >
       <Form className="shadow rounded p-4" style={{ width: '350px' }}>
+        {isVendor && (
+          <div className="text-center">
+            <div className="text-danger text-center">
+              Note: You are signing up as a seller
+            </div>
+            <button
+              type="button"
+              className="reset text-primary vendor-warning-btn mb-1"
+              onClick={handleVendorWarning}
+            >
+              Click here to sign up as a USER
+            </button>
+          </div>
+        )}
         {!isLogin && (
           <FormGroup
             name="name"
@@ -152,7 +190,10 @@ export default function Login() {
           onClick={handleSubmit}
           disabled={Object.keys(errors).length > 0}
         >
-          {isLogin ? 'Login' : 'Sign up'}
+          {
+            // eslint-disable-next-line no-nested-ternary
+            isVendor ? 'Sign up as a seller' : isLogin ? 'Login' : 'Sign up'
+          }
         </Button>
         <Button
           onClick={switchMode}
@@ -164,6 +205,18 @@ export default function Login() {
             : 'Already have an account? Login'}
         </Button>
       </Form>
+      {!isLogin && (
+        <div className="text-center mt-2">
+          <div className="text-secondary">Want to be a seller?</div>
+          <button
+            type="button"
+            className="reset text-dark vendor-btn"
+            onClick={handleVendorSignup}
+          >
+            Sign up
+          </button>
+        </div>
+      )}
     </div>
   );
 }
