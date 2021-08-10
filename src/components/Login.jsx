@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { login, signup } from '../actions/auth';
 import FormGroup from '../common/FormGroup';
+import { AUTH_ERROR } from '../actionTypes/index';
 
 const initialState = { name: '', email: '', password: '', confirmPassword: '' };
 export default function Login() {
@@ -29,7 +30,7 @@ export default function Login() {
     setForm(() => initialState);
     localStorage.setItem('login', JSON.stringify(!isLogin));
     setIsLogin((prevState) => !prevState);
-    dispatch({ type: 'AUTH_ERROR', payload: null });
+    dispatch({ type: AUTH_ERROR, payload: null });
   };
 
   // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

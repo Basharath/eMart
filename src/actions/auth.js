@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import * as api from '../api';
-import { AUTH, LOGOUT, GET_USER } from '../actionTypes';
+import { AUTH, LOGOUT, GET_USER, AUTH_ERROR } from '../actionTypes';
 
 export const login = (userData, location, history) => async (dispatch) => {
   try {
@@ -12,7 +12,7 @@ export const login = (userData, location, history) => async (dispatch) => {
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
-    dispatch({ type: 'AUTH_ERROR', payload: data });
+    dispatch({ type: AUTH_ERROR, payload: data });
   }
 };
 
@@ -26,7 +26,7 @@ export const signup = (userData, location, history) => async (dispatch) => {
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
-    dispatch({ type: 'AUTH_ERROR', payload: data });
+    dispatch({ type: AUTH_ERROR, payload: data });
   }
 };
 

@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT, GET_USER } from '../actionTypes';
+import { AUTH, LOGOUT, GET_USER, AUTH_ERROR } from '../actionTypes';
 
 const authReducer = (state = { authData: null }, action) => {
   switch (action.type) {
@@ -13,7 +13,7 @@ const authReducer = (state = { authData: null }, action) => {
     case GET_USER:
       return { ...state, authData: action.payload };
 
-    case 'AUTH_ERROR':
+    case AUTH_ERROR:
       return { ...state, error: action.payload };
 
     default:
