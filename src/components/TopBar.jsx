@@ -9,7 +9,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../images/Logo.png';
 import NavItem from '../common/NavItem';
 import { logout } from '../actions/auth';
-import { getCart } from '../api';
+// import { getCart } from '../api';
 
 export default function TopBar({ user }) {
   const dispatch = useDispatch();
@@ -18,10 +18,10 @@ export default function TopBar({ user }) {
     dispatch(logout());
   };
 
-  const handleCart = async () => {
-    const { data } = await getCart();
-    console.log('cart', data);
-  };
+  // const handleCart = async () => {
+  //   const { data } = await getCart();
+  //   console.log('cart', data);
+  // };
 
   return (
     <Navbar bg="primary" expand="lg" variant="dark">
@@ -47,12 +47,7 @@ export default function TopBar({ user }) {
           </Form>
           <Nav className="mr-2" navbarScroll>
             <NavItem url="/orders" icon="receipt" text="Orders" />
-            <NavItem
-              url="/cart"
-              icon="shopping-cart"
-              text="Cart"
-              onClick={handleCart}
-            />
+            <NavItem url="/cart" icon="shopping-cart" text="Cart" />
             {user ? (
               <NavDropdown
                 title={<span className="text-light">{user.name}</span>}

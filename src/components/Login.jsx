@@ -1,26 +1,40 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import Joi from 'joi-browser';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { login, signup } from '../actions/auth';
+import FormGroup from '../common/FormGroup';
 
 const initialState = { name: '', email: '', password: '', confirmPassword: '' };
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(
+    JSON.parse(localStorage.getItem('login'))
+  );
   const [form, setForm] = useState(initialState);
   const [errors, setErrors] = useState({});
+
+  const { error: authError } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    const errs = { ...errors, auth: authError };
+    setErrors(errs);
+  }, [authError]);
 
   const switchMode = () => {
     setForm(() => initialState);
+    localStorage.setItem('login', JSON.stringify(!isLogin));
     setIsLogin((prevState) => !prevState);
+    dispatch({ type: 'AUTH_ERROR', payload: null });
   };
 
+  // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const formSchema = {
-    name: Joi.string().min(4),
+    name: Joi.string().min(4).label('Name'),
     email: Joi.string().email().required().label('Email'),
     password: Joi.string().min(8).required().label('Password'),
     confirmPassword: Joi.any()
@@ -43,6 +57,7 @@ export default function Login() {
   };
 
   const handleChange = ({ currentTarget: input }) => {
+    delete errors.auth;
     const errs = { ...errors };
     const errorMessage = validateProperty(input);
     if (errorMessage) errs[input.name] = errorMessage;
@@ -66,6 +81,7 @@ export default function Login() {
     return errs;
   };
 
+  // eslint-disable-next-line consistent-return
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -76,11 +92,10 @@ export default function Login() {
     const data = isLogin ? loginData : form;
     const errs = validateForm(data);
     setErrors({ ...(errs || {}) });
-    if (errs) return 0;
+    if (errs) return;
 
-    if (isLogin) dispatch(login(loginData, history));
-    else dispatch(signup(signupData, history));
-    return 0;
+    if (isLogin) dispatch(login(loginData, location, history));
+    else dispatch(signup(signupData, location, history));
   };
 
   return (
@@ -89,71 +104,46 @@ export default function Login() {
       style={{}}
     >
       <Form className="shadow rounded p-4" style={{ width: '350px' }}>
-        {/* <p className="text-center mb-2 h5">
-          Login to access your orders and cart
-        </p> */}
         {!isLogin && (
-          <Form.Group className="mb-3" controlId="formName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              className="no-focus"
-              name="name"
-              onChange={handleChange}
-              value={form.name}
-            />
-            <Form.Text className="text-muted">
-              {errors.name && errors.name}
-            </Form.Text>
-          </Form.Group>
-        )}
-        <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            className="no-focus"
-            name="email"
+          <FormGroup
+            name="name"
+            label="Name"
+            error={errors.name}
             onChange={handleChange}
-            required
-            value={form.email}
+            value={form.name}
+            placeholder="Enter your name"
           />
-          <Form.Text className="text-muted">
-            {errors.email && errors.email}
-          </Form.Text>
-        </Form.Group>
-
-        <Form.Group className="mb-3 no-focus" controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
+        )}
+        <FormGroup
+          name="email"
+          label="Email address"
+          type="email"
+          error={errors.email}
+          onChange={handleChange}
+          value={form.email}
+          placeholder="Enter your email"
+        />
+        <FormGroup
+          name="password"
+          label="Password"
+          type="password"
+          error={errors.password}
+          onChange={handleChange}
+          value={form.password}
+          placeholder="Password"
+        />
+        {!isLogin && (
+          <FormGroup
+            name="confirmPassword"
+            label="Password"
             type="password"
-            placeholder="Password"
-            className="no-focus"
-            name="password"
+            error={errors.confirmPassword}
             onChange={handleChange}
-            value={form.password}
+            value={form.confirmPassword}
+            placeholder="Retype password"
           />
-          <Form.Text className="text-muted">
-            {errors.password && errors.password}
-          </Form.Text>
-        </Form.Group>
-        {!isLogin && (
-          <Form.Group className="mb-3 no-focus" controlId="formConfirmPass">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Retype password"
-              className="no-focus"
-              onChange={handleChange}
-              name="confirmPassword"
-              value={form.confirmPassword}
-            />
-            <Form.Text className="text-muted">
-              {errors.confirmPassword && errors.confirmPassword}
-            </Form.Text>
-          </Form.Group>
         )}
+        {errors.auth && <div className="text-danger mb-2">{errors.auth}</div>}
         <Button
           variant="primary"
           type="submit"

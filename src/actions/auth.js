@@ -5,14 +5,14 @@ import { AUTH, LOGOUT, GET_USER } from '../actionTypes';
 export const login = (userData, location, history) => async (dispatch) => {
   try {
     const { data } = await api.signInUser(userData);
-
     dispatch({ type: AUTH, payload: data });
 
     const { state } = location;
     // window.location = state ? state.from.pathname : '/';
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
-    console.log(err.message);
+    const data = err.response ? err.response.data : 'Something went wrong';
+    dispatch({ type: 'AUTH_ERROR', payload: data });
   }
 };
 
@@ -25,7 +25,8 @@ export const signup = (userData, location, history) => async (dispatch) => {
     const { state } = location;
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
-    console.log(err.message);
+    const data = err.response ? err.response.data : 'Something went wrong';
+    dispatch({ type: 'AUTH_ERROR', payload: data });
   }
 };
 
