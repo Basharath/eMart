@@ -17,14 +17,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { authData } = useSelector((state) => state.auth);
+  const { authData, userData } = useSelector((state) => state.auth);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     dispatch(getProducts());
+  }, []);
+
+  useEffect(() => {
     dispatch(getUser());
-    setUser(authData);
   }, [authData]);
+
+  useEffect(() => {
+    setUser(() => userData);
+  }, [userData]);
 
   return (
     <>

@@ -33,8 +33,13 @@ export const signup = (userData, location, history) => async (dispatch) => {
 export const getUser = () => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem('token-emart'));
-    const userData = token && (await jwtDecode(token));
-
+    let userData = token && (await jwtDecode(token));
+    if (userData) {
+      userData =
+        Math.floor(new Date().getTime() / 1000) > userData.exp
+          ? null
+          : userData;
+    }
     dispatch({ type: GET_USER, payload: userData });
   } catch (err) {
     console.log(err.message);

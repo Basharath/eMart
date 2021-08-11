@@ -7,7 +7,7 @@ export default function ProtectedRoute({
   ...rest
 }) {
   const location = useLocation();
-  const { authData: user } = useSelector((state) => state.auth);
+  const { userData: user } = useSelector((state) => state.auth);
 
   return (
     <Route
