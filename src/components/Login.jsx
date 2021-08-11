@@ -125,7 +125,7 @@ export default function Login() {
 
   return (
     <div
-      className="mt-5 d-flex flex-column justify-content-center align-items-center"
+      className="mt-4 d-flex flex-column justify-content-center align-items-center"
       style={{}}
     >
       <Form className="shadow rounded p-4" style={{ width: '350px' }}>
@@ -139,7 +139,7 @@ export default function Login() {
               className="reset text-primary vendor-warning-btn mb-1"
               onClick={handleVendorWarning}
             >
-              Click here to sign up as a USER
+              If not sure click this to sign up as a USER
             </button>
           </div>
         )}
