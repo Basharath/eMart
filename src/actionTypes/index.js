@@ -16,3 +16,8 @@ export const CLEAR_CART = 'CLEAR_CART';
 export const GET_ORDERS = 'GET_ORDERS';
 export const POST_ORDER = 'POST_ORDER';
 export const CANCEL_ORDER = 'CANCEL_ORDER';
+
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+export const ADD_CATEGORY = 'ADD_CATEGORY';
+export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
+export const DELETE_CATEGORY = 'DELETE_CATEGORY';
