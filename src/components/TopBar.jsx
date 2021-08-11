@@ -52,9 +52,12 @@ export default function TopBar({ user }) {
               <NavDropdown
                 title={<span className="text-light">{user.name}</span>}
                 className="p-1"
+                renderMenuOnMount
               >
                 <NavDropdown.Item>Account</NavDropdown.Item>
-                <NavDropdown.Item>Wishlist</NavDropdown.Item>
+                {user.isVendor && (
+                  <NavDropdown.Item>My Products</NavDropdown.Item>
+                )}
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout
