@@ -125,7 +125,9 @@ export default function Login() {
 
   return (
     <div
-      className="mt-4 d-flex flex-column justify-content-center align-items-center"
+      className={`d-flex flex-column justify-content-center align-items-center ${
+        isLogin ? 'mt-5' : 'mt-4'
+      }`}
       style={{}}
     >
       <Form className="shadow rounded p-4" style={{ width: '350px' }}>
