@@ -26,7 +26,7 @@ export default function TopBar({ user }) {
   // };
 
   return (
-    <Navbar bg="primary" expand="lg" variant="dark">
+    <Navbar bg="primary" expand="lg" variant="dark" sticky="top">
       <Container>
         <Navbar.Brand href="/" className="fs-2">
           <img src={logo} style={{ height: '40px' }} alt="emart-log" />
@@ -60,7 +60,10 @@ export default function TopBar({ user }) {
                 {/* <NavDropdown.Item>Account</NavDropdown.Item> */}
                 <NavDropdownItem url="/account" text="Account" />
                 {user.isVendor && (
-                  <NavDropdownItem url="/products" text="My Products" />
+                  <>
+                    <NavDropdownItem url="/add-product" text="Add product" />
+                    <NavDropdownItem url="/products" text="My Products" />
+                  </>
                 )}
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>
