@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import Container from 'react-bootstrap/Container';
 import { getProducts } from './actions/products';
 import { getUser } from './actions/auth';
+import { getCategories } from './actions/categories';
 
 import TopBar from './components/TopBar';
 import Login from './components/Login';
@@ -15,6 +16,7 @@ import Products from './components/Products';
 import ProtectedRoute from './common/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
 import MyProducts from './components/MyProducts';
+import AddProduct from './components/AddProduct';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getCategories());
   }, []);
 
   useEffect(() => {
@@ -46,6 +49,10 @@ const App = () => {
             />
             <ProtectedRoute path="/orders" component={Orders} />
             <ProtectedRoute path="/cart" component={Cart} />
+            <ProtectedRoute
+              path="/add-product"
+              component={() => (user.isVendor ? <AddProduct /> : <Products />)}
+            />
             <ProtectedRoute
               path="/products"
               component={() => (user.isVendor ? <MyProducts /> : <Products />)}

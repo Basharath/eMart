@@ -50,6 +50,10 @@ button:active:focus {
   background-color: #ddd;
 }
 
+.product-form {
+  width: 450px;
+}
+
 @media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;
@@ -68,6 +72,9 @@ button:active:focus {
 }
 
 @media (max-width: 540px) {
+  .product-form {
+    width: 320px;
+  }
 }
 
 @media (min-width: 1024px) {
