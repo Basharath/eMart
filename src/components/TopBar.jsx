@@ -6,6 +6,8 @@ import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+// import { Link } from 'react-router-dom';
+import NavDropdownItem from '../common/NavDropdownItem';
 import logo from '../images/Logo.png';
 import NavItem from '../common/NavItem';
 import { logout } from '../actions/auth';
@@ -53,10 +55,12 @@ export default function TopBar({ user }) {
                 title={<span className="text-light">{user.name}</span>}
                 className="p-1"
                 renderMenuOnMount
+                id="nav-dropdown"
               >
-                <NavDropdown.Item>Account</NavDropdown.Item>
+                {/* <NavDropdown.Item>Account</NavDropdown.Item> */}
+                <NavDropdownItem url="/account" text="Account" />
                 {user.isVendor && (
-                  <NavDropdown.Item>My Products</NavDropdown.Item>
+                  <NavDropdownItem url="/products" text="My Products" />
                 )}
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>
