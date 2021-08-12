@@ -14,6 +14,7 @@ import Cart from './components/Cart';
 import Products from './components/Products';
 import ProtectedRoute from './common/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
+import MyProducts from './components/MyProducts';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,10 @@ const App = () => {
             />
             <ProtectedRoute path="/orders" component={Orders} />
             <ProtectedRoute path="/cart" component={Cart} />
+            <ProtectedRoute
+              path="/products"
+              component={() => (user.isVendor ? <MyProducts /> : <Products />)}
+            />
             <Route path="/" exact component={Products} />
             <Redirect to="/" />
           </Switch>
