@@ -8,7 +8,7 @@ import {
 const categoriesReducer = (categories = [], action) => {
   switch (action.type) {
     case GET_CATEGORIES:
-      return [...categories, ...action.payload];
+      return [...action.payload];
 
     case ADD_CATEGORY:
       return [...categories, ...action.payload];
