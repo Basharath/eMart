@@ -33,7 +33,8 @@ const usersUrl = '/users';
 
 export const getProducts = () => API.get(productsUrl);
 export const getProduct = (id) => API.get(id);
-export const addProduct = (newProduct) => API.post(productsUrl, newProduct);
+export const addProduct = (newProduct) =>
+  API.post(productsUrl, newProduct, { 'Content-Type': 'image/jpeg' });
 export const updateProduct = (id, product) =>
   API.put(`${productsUrl}/${id}`, product);
 export const deleteProduct = (id) => API.delete(`${productsUrl}/${id}`);
