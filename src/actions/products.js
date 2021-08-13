@@ -2,6 +2,7 @@ import * as api from '../api';
 import {
   GET_PRODUCTS,
   GET_PRODUCT,
+  ADD_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   RATE_PRODUCT,
@@ -25,6 +26,15 @@ export const getProduct = (id) => async (dispatch) => {
   }
 };
 
+export const addProduct = (product, router) => async (dispatch) => {
+  try {
+    const { data } = await api.addProduct(product);
+    dispatch({ type: ADD_PRODUCT, payload: data });
+    router.push('/products');
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 export const updateProduct = (id, product) => async (dispatch) => {
   try {
     const { data } = await api.updateProduct(id, product);
