@@ -5,10 +5,11 @@ export default function FormGroup({
   name,
   error,
   type = 'text',
+  classes = 'mb-3',
   ...rest
 }) {
   return (
-    <Form.Group className="mb-3">
+    <Form.Group className={classes}>
       <Form.Label>{label}</Form.Label>
       <Form.Control
         type={type}

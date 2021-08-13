@@ -1,10 +1,15 @@
 import Form from 'react-bootstrap/Form';
 
-export default function FormSelect({ label, arr, ...rest }) {
+export default function FormSelect({ label, name, arr, ...rest }) {
   return (
     <Form.Group className="mb-3">
       <Form.Label>{label}</Form.Label>
-      <Form.Select aria-label="Select category" className="no-focus" {...rest}>
+      <Form.Select
+        aria-label="Select category"
+        name={name}
+        className="no-focus"
+        {...rest}
+      >
         <option>Select {label.toString().toLowerCase()}</option>
         {arr.map((c) => (
           <option key={c._id} value={c._id}>
