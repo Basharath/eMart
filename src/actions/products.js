@@ -35,10 +35,11 @@ export const addProduct = (product, router) => async (dispatch) => {
     console.log(err.message);
   }
 };
-export const updateProduct = (id, product) => async (dispatch) => {
+export const updateProduct = (id, product, router) => async (dispatch) => {
   try {
     const { data } = await api.updateProduct(id, product);
     dispatch({ type: UPDATE_PRODUCT, payload: data });
+    router.push('/products');
   } catch (err) {
     console.log(err.message);
   }
