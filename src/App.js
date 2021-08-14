@@ -54,8 +54,14 @@ const App = () => {
               component={() => (user.isVendor ? <AddProduct /> : <Products />)}
             />
             <ProtectedRoute
+              path="/update-product"
+              component={() => (user.isVendor ? <AddProduct /> : <Products />)}
+            />
+            <ProtectedRoute
               path="/products"
-              component={() => (user.isVendor ? <MyProducts /> : <Products />)}
+              component={() =>
+                user.isVendor ? <MyProducts user={user} /> : <Products />
+              }
             />
             <Route path="/" exact component={Products} />
             <Redirect to="/" />
