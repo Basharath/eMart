@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import FormGroup from '../common/FormGroup';
 import FormSelect from '../common/FormSelect';
 // import { getCategories } from '../actions/categories';
-import { addProduct } from '../actions/products';
+import { addProduct, updateProduct } from '../actions/products';
 
 const initialState = {
   name: '',
@@ -22,8 +22,17 @@ const initialState = {
   categoryId: '',
   images: '',
 };
-export default function AddProduct() {
-  const [form, setForm] = useState(initialState);
+export default function AddProduct({
+  data = initialState,
+  edit = false,
+  handleEdit,
+}) {
+  const [form, setForm] = useState(
+    edit ? { ...data, categoryId: data.category._id } : data
+  );
+  const [prevImages, setPrevImages] = useState(
+    data.name ? data.images.map((i) => i.url) : ''
+  );
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
@@ -38,6 +47,13 @@ export default function AddProduct() {
   };
 
   const handleImage = ({ currentTarget }) => {
+    const filesArray = Array.from(currentTarget.files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setPrevImages(filesArray);
+    Array.from(currentTarget.files).map(
+      (file) => URL.revokeObjectURL(file) // to avoid memory leak
+    );
     // const src = URL.createObjectURL(currentTarget.files[0]);
     setForm((prev) => ({
       ...prev,
@@ -47,6 +63,8 @@ export default function AddProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // if (data.name)
+    //   setForm((prev) => ({ ...prev, categoryId: prev.category._id }));
     formData.append('name', form.name);
     formData.append('description', form.description);
     formData.append('offer', +form.offer);
@@ -59,7 +77,10 @@ export default function AddProduct() {
     for (let i = 0; i < form.images.length; i++) {
       formData.append('product', form.images[i]);
     }
-    dispatch(addProduct(formData, history));
+    if (edit) {
+      dispatch(updateProduct(form._id, formData, history));
+      handleEdit(false);
+    } else dispatch(addProduct(formData, history));
   };
   return (
     <Container className="py-2">
@@ -144,12 +165,46 @@ export default function AddProduct() {
               onChange={handleImage}
               // value={form.images}
               type="file"
+              id="upload"
+              style={{ display: 'none' }}
               multiple
               placeholder="Upload product images"
+              classes="m-0"
             />
+            {prevImages.length > 0 &&
+              prevImages.map((i, idx) => (
+                <img
+                  src={i}
+                  alt={i}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={idx}
+                  className="mb-3 me-2"
+                  style={{ width: '66px', height: '66px' }}
+                />
+              ))}
+            {
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              <label
+                htmlFor="upload"
+                className="camera mb-2 p-3 border"
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+                role="button"
+              >
+                <i className="fas fa-camera fa-2x" />
+              </label>
+            }
             <Button type="submit" onClick={handleSubmit} className="w-100">
-              Add product
+              {data.name ? 'Update product' : 'Add product'}
             </Button>
+            {edit && (
+              <Button
+                variant="secondary"
+                onClick={() => handleEdit(false)}
+                className="w-100 mt-1"
+              >
+                Cancel updating
+              </Button>
+            )}
           </Form>
         </Col>
       </Row>
