@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import * as api from '../api';
-import { AUTH, LOGOUT, GET_USER, AUTH_ERROR } from '../actionTypes';
+import { AUTH, LOGOUT, AUTH_ERROR } from '../actionTypes';
 
 export const login = (userData, location, history) => async (dispatch) => {
   try {
@@ -30,17 +30,29 @@ export const signup = (userData, location, history) => async (dispatch) => {
   }
 };
 
-export const getUser = () => async (dispatch) => {
+export const getUser = () => {
   try {
     const token = JSON.parse(localStorage.getItem('token-emart'));
-    let userData = token && (await jwtDecode(token));
+    let userData = token && jwtDecode(token);
     if (userData) {
       userData =
         Math.floor(new Date().getTime() / 1000) > userData.exp
           ? null
           : userData;
     }
-    dispatch({ type: GET_USER, payload: userData });
+    return userData;
+    // dispatch({ type: GET_USER, payload: userData });
+  } catch (err) {
+    console.log(err.message);
+  }
+  return 0;
+};
+
+export const getAuth = () => async (dispatch) => {
+  try {
+    const token = JSON.parse(localStorage.getItem('token-emart'));
+
+    dispatch({ type: AUTH, payload: { token } });
   } catch (err) {
     console.log(err.message);
   }
