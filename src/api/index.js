@@ -32,7 +32,7 @@ const categoriesUrl = '/categories';
 const usersUrl = '/users';
 
 export const getProducts = () => API.get(productsUrl);
-export const getProduct = (id) => API.get(id);
+export const getProduct = (id) => API.get(`${productsUrl}/${id}`);
 export const addProduct = (newProduct) =>
   API.post(productsUrl, newProduct, { 'Content-Type': 'image/jpeg' });
 export const updateProduct = (id, product) =>
