@@ -1,7 +1,7 @@
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import { getUser } from '../actions/auth';
 
-export default function ProtectedRoute({
+export default function ProtectedRouteVendor({
   component: Component,
   render,
   ...rest
@@ -17,6 +17,7 @@ export default function ProtectedRoute({
           return (
             <Redirect to={{ pathname: '/login', state: { from: location } }} />
           );
+        if (!user.isVendor) return <Redirect to="/" />;
         return Component ? <Component {...props} /> : render(props);
       }}
     />
