@@ -1,7 +1,7 @@
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+// import { useHistory, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import FormGroup from '../common/FormGroup';
 import FormSelect from '../common/FormSelect';
 // import { getCategories } from '../actions/categories';
-import { addProduct, updateProduct } from '../actions/products';
+import { addProduct, updateProduct, getProduct } from '../actions/products';
 
 const initialState = {
   name: '',
@@ -21,26 +21,35 @@ const initialState = {
   seller: '',
   categoryId: '',
   images: '',
+  formDataImages: '',
 };
-export default function AddProduct({
-  data = initialState,
-  edit = false,
-  handleEdit,
-}) {
-  const [form, setForm] = useState(
-    edit ? { ...data, categoryId: data.category._id } : data
-  );
-  const [prevImages, setPrevImages] = useState(
-    data.name ? data.images.map((i) => i.url) : ''
-  );
+export default function AddProduct({ history, match }) {
+  const { product: p } = useSelector((state) => state.products);
+  const [form, setForm] = useState(() => initialState);
+  const [prevImages, setPrevImages] = useState([]);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
-  const history = useHistory();
+  // const history = useHistory();
+  // const { id } = useParams();
+  const { id } = match.params;
 
   const formData = new FormData();
+
   useEffect(() => {
-    // dispatch(getCategories());
+    if (id) {
+      dispatch(getProduct(id));
+    }
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      setForm((prev) => ({ ...prev, ...p, categoryId: p?.category._id }));
+      setPrevImages(() => p?.images.map((i) => i.url));
+    } else {
+      setForm(initialState);
+      setPrevImages([]);
+    }
+  }, [p, id]);
 
   const handleChange = ({ currentTarget }) => {
     setForm((prev) => ({ ...prev, [currentTarget.name]: currentTarget.value }));
@@ -57,14 +66,13 @@ export default function AddProduct({
     // const src = URL.createObjectURL(currentTarget.files[0]);
     setForm((prev) => ({
       ...prev,
-      images: currentTarget.files,
+      formDataImages: currentTarget.files,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (data.name)
-    //   setForm((prev) => ({ ...prev, categoryId: prev.category._id }));
+
     formData.append('name', form.name);
     formData.append('description', form.description);
     formData.append('offer', +form.offer);
@@ -74,12 +82,12 @@ export default function AddProduct({
     formData.append('categoryId', form.categoryId);
 
     // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < form.images.length; i++) {
-      formData.append('product', form.images[i]);
+    if (form.formDataImages.length > 0) {
+      Array.from(form.formDataImages).map((i) => formData.append('product', i));
     }
-    if (edit) {
+
+    if (id) {
       dispatch(updateProduct(form._id, formData, history));
-      handleEdit(false);
     } else dispatch(addProduct(formData, history));
   };
   return (
@@ -163,7 +171,6 @@ export default function AddProduct({
               name="images"
               label="Product images"
               onChange={handleImage}
-              // value={form.images}
               type="file"
               id="upload"
               style={{ display: 'none' }}
@@ -171,7 +178,7 @@ export default function AddProduct({
               placeholder="Upload product images"
               classes="m-0"
             />
-            {prevImages.length > 0 &&
+            {prevImages?.length > 0 &&
               prevImages.map((i, idx) => (
                 <img
                   src={i}
@@ -194,17 +201,16 @@ export default function AddProduct({
               </label>
             }
             <Button type="submit" onClick={handleSubmit} className="w-100">
-              {data.name ? 'Update product' : 'Add product'}
+              {id ? 'Update product' : 'Add product'}
             </Button>
-            {edit && (
-              <Button
-                variant="secondary"
-                onClick={() => handleEdit(false)}
-                className="w-100 mt-1"
-              >
-                Cancel updating
-              </Button>
-            )}
+
+            <Button
+              variant="secondary"
+              onClick={() => history.goBack()}
+              className="w-100 mt-1"
+            >
+              {id ? 'Cancel updating' : 'Go back'}
+            </Button>
           </Form>
         </Col>
       </Row>
