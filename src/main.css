@@ -54,6 +54,10 @@ button:active:focus {
   width: 450px;
 }
 
+.modal-content {
+  position: absolute;
+  top: 100px !important;
+}
 @media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;
