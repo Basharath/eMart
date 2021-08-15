@@ -45,10 +45,11 @@ export const updateProduct = (id, product, router) => async (dispatch) => {
   }
 };
 
-export const deleteProduct = (id) => async (dispatch) => {
+export const deleteProduct = (id, router) => async (dispatch) => {
   try {
     const { data } = await api.deleteProduct(id);
     dispatch({ type: DELETE_PRODUCT, payload: data._id });
+    router.push('/products');
   } catch (err) {
     console.log(err.message);
   }
