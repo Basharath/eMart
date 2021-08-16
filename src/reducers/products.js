@@ -1,5 +1,6 @@
 import {
   GET_PRODUCTS,
+  GET_VENDOR_PRODS,
   GET_PRODUCT,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
@@ -11,6 +12,9 @@ const productReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return { ...state, products: action.payload };
+
+    case GET_VENDOR_PRODS:
+      return { ...state, vendorProds: action.payload };
 
     case GET_PRODUCT:
       return { ...state, product: action.payload };
