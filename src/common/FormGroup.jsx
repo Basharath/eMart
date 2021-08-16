@@ -6,6 +6,7 @@ export default function FormGroup({
   error,
   type = 'text',
   classes = 'mb-3',
+  seller,
   ...rest
 }) {
   return (
@@ -18,6 +19,11 @@ export default function FormGroup({
         name={name}
         {...rest}
       />
+      {seller && (
+        <Form.Text className="text-muted d-block">
+          Products will be listed under this name
+        </Form.Text>
+      )}
       {error && <Form.Text className="text-danger">{error}</Form.Text>}
     </Form.Group>
   );
