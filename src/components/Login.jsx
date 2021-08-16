@@ -152,7 +152,10 @@ export default function Login() {
             error={errors.name}
             onChange={handleChange}
             value={form.name}
-            placeholder="Enter your name"
+            placeholder={
+              isVendor ? 'Enter brand/company name' : 'Enter your name'
+            }
+            seller={isVendor}
           />
         )}
         <FormGroup
