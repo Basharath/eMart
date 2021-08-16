@@ -1,6 +1,7 @@
 import * as api from '../api';
 import {
   GET_PRODUCTS,
+  GET_VENDOR_PRODS,
   GET_PRODUCT,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
@@ -12,6 +13,15 @@ export const getProducts = () => async (dispatch) => {
   try {
     const { data } = await api.getProducts();
     dispatch({ type: GET_PRODUCTS, payload: data });
+  } catch (err) {
+    console.log('Error', err.message);
+  }
+};
+
+export const getVendorProducts = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.getProducts(id);
+    dispatch({ type: GET_VENDOR_PRODS, payload: data });
   } catch (err) {
     console.log('Error', err.message);
   }
