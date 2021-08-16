@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ProductCard from '../common/ProductCard';
 import FormGroup from '../common/FormGroup';
 import FormSelect from '../common/FormSelect';
 import {
@@ -15,19 +16,22 @@ import {
   deleteProduct,
 } from '../actions/products';
 import Popup from '../common/Popup';
+import { getUser } from '../actions/auth';
 
-const initialState = {
-  name: '',
-  description: '',
-  price: '',
-  offer: '',
-  stock: '',
-  seller: '',
-  categoryId: '',
-  images: '',
-  formDataImages: '',
-};
 export default function AddProduct({ history, match }) {
+  const user = getUser();
+  const initialState = {
+    name: '',
+    description: '',
+    price: '',
+    offer: '',
+    stock: '',
+    seller: user.name,
+    categoryId: '',
+    images: '',
+    formDataImages: '',
+  };
+
   const { product: p } = useSelector((state) => state.products);
   const [form, setForm] = useState(() => initialState);
   const [prevImages, setPrevImages] = useState([]);
@@ -35,7 +39,6 @@ export default function AddProduct({ history, match }) {
   const categories = useSelector((state) => state.categories);
   const [show, setShow] = useState(false);
   const { id } = match.params;
-
   const formData = new FormData();
 
   useEffect(() => {
@@ -48,6 +51,7 @@ export default function AddProduct({ history, match }) {
     if (id) {
       setForm((prev) => ({ ...prev, ...p, categoryId: p?.category._id }));
       setPrevImages(() => p?.images.map((i) => i.url));
+      if (user.id !== p?.userId && !user.isAdmin) history.push('/');
     } else {
       setForm(initialState);
       setPrevImages([]);
@@ -108,7 +112,15 @@ export default function AddProduct({ history, match }) {
 
       <Container className="py-2">
         <Row>
-          <Col className="border-end">Col 1 - Product preview</Col>
+          <Col className="border-end d-flex justify-content-center mt-5">
+            <ProductCard
+              name={form.name}
+              offer={form.offer}
+              price={form.price}
+              img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
+              rating={2.5}
+            />
+          </Col>
           <Col className="d-flex flex-column justify-content-center align-items-center">
             <Form className="shadow rounded p-4 product-form">
               <p className="h3 text-center">Add product</p>
@@ -178,7 +190,8 @@ export default function AddProduct({ history, match }) {
               <FormGroup
                 name="seller"
                 label="Seller name"
-                onChange={handleChange}
+                // onChange={handleChange}
+                readOnly
                 value={form.seller}
                 placeholder="Enter seller name"
               />
