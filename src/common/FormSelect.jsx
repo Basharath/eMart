@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 
-export default function FormSelect({ label, name, arr, ...rest }) {
+export default function FormSelect({ label, name, arr, error, ...rest }) {
   return (
     <Form.Group className="mb-3">
       <Form.Label>{label}</Form.Label>
@@ -17,6 +17,7 @@ export default function FormSelect({ label, name, arr, ...rest }) {
           </option>
         ))}
       </Form.Select>
+      {error && <Form.Text className="text-danger">{error}</Form.Text>}
     </Form.Group>
   );
 }
