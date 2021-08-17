@@ -1,11 +1,18 @@
 import Card from 'react-bootstrap/Card';
 import StarRating from 'react-star-ratings';
 
-export default function ProductCard({ name, price, offer, rating = 0, img }) {
+export default function ProductCard({
+  name,
+  price,
+  offer,
+  rating = 0,
+  img,
+  classes,
+}) {
   return (
     <Card
-      style={{ width: '300px', height: '350px' }}
-      className="overflow-hidden"
+      style={{ width: '300px', height: '350px', overflow: 'hidden' }}
+      className={classes}
     >
       <Card.Img
         variant="top"
