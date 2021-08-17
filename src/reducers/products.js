@@ -44,6 +44,12 @@ const productReducer = (state = { products: [] }, action) => {
         products: state.products.filter((p) => p._id !== action.payload),
       };
 
+    case 'PRODUCT_ERROR':
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     default:
       return state;
   }

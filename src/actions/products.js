@@ -42,7 +42,8 @@ export const addProduct = (product, router) => async (dispatch) => {
     dispatch({ type: ADD_PRODUCT, payload: data });
     router.push('/products');
   } catch (err) {
-    console.log(err.message);
+    const data = err.response ? err.response.data : 'Something went wrong';
+    dispatch({ type: 'PRODUCT_ERROR', payload: data });
   }
 };
 export const updateProduct = (id, product, router) => async (dispatch) => {
@@ -51,7 +52,8 @@ export const updateProduct = (id, product, router) => async (dispatch) => {
     dispatch({ type: UPDATE_PRODUCT, payload: data });
     router.push('/products');
   } catch (err) {
-    console.log(err.message);
+    const data = err.response ? err.response.data : 'Something went wrong';
+    dispatch({ type: 'PRODUCT_ERROR', payload: data });
   }
 };
 
