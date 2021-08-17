@@ -1,5 +1,5 @@
 body {
-  overflow-x: none;
+  overflow-x: hidden;
 }
 
 .btn:focus,
@@ -91,4 +91,31 @@ button:active:focus {
 
 @media (min-width: 1024px) {
   /* style={{ height: '50px' }} */
+  .fixed {
+    position: relative;
+    top: 60px;
+    left: 10px;
+  }
+
+  .product-form {
+    height: 550px;
+    overflow-y: scroll;
+    padding-bottom: 40px;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .product-form::-webkit-scrollbar {
+    display: -moz-inline-box;
+    width: 10px;
+  }
+
+  .product-form::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+    background-color: #ebebeb;
+  }
+
+  .product-form::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    outline: 1px solid #eee;
+  }
 }

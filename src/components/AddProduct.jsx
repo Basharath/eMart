@@ -1,7 +1,8 @@
 import FormData from 'form-data';
+import Joi from 'joi';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Container from 'react-bootstrap/Container';
+// import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -26,18 +27,21 @@ export default function AddProduct({ history, match }) {
     price: '',
     offer: '',
     stock: '',
-    seller: user.name,
+    seller: user?.name,
     categoryId: '',
     images: '',
     formDataImages: '',
   };
 
-  const { product: p } = useSelector((state) => state.products);
+  const { product: p, error: productError } = useSelector(
+    (state) => state.products
+  );
   const [form, setForm] = useState(() => initialState);
   const [prevImages, setPrevImages] = useState([]);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
   const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState({});
   const { id } = match.params;
   const formData = new FormData();
 
@@ -77,20 +81,69 @@ export default function AddProduct({ history, match }) {
     }));
   };
 
+  const productSchema = Joi.object({
+    name: Joi.string().min(5).max(255).required().label('Name'),
+    description: Joi.string().min(20).required().label('Description'),
+    offer: Joi.string().required().label('Discounted price'),
+    price: Joi.string()
+      .required()
+      .label('Original price')
+      .messages({ 'any.required': 'Must have at least 8 characters' }),
+    seller: Joi.string().required(),
+    categoryId: Joi.string().required().label('Category'),
+    stock: Joi.string().required().label('Stock'),
+    formDataImages: Joi.object()
+      .required()
+      .label('At least one image has to be selected'),
+  });
+
+  // console.log('errs', errors);
+
+  const validateProduct = (data) => {
+    const options = { abortEarly: false };
+    const { error } = productSchema.validate(data, options);
+    console.log('error', error?.details);
+    if (!error) return null;
+
+    const errs = {};
+
+    error.details.forEach((e) => {
+      if (e.path[0] === 'formDataImages') errs[e.path[0]] = e.context.label;
+      else errs[e.path[0]] = e.message;
+    });
+    return errs;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { images, ...data } = form;
+    const errs = validateProduct(data);
+    setErrors({ ...(errs || {}) });
 
-    formData.append('name', form.name);
-    formData.append('description', form.description);
-    formData.append('offer', +form.offer);
-    formData.append('price', +form.price);
-    formData.append('seller', form.seller);
-    formData.append('stock', +form.stock);
-    formData.append('categoryId', form.categoryId);
+    if (errs) return;
+
+    const {
+      name,
+      description,
+      offer,
+      price,
+      seller,
+      stock,
+      categoryId,
+      formDataImages,
+    } = form;
+
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('offer', +offer);
+    formData.append('price', +price);
+    formData.append('seller', seller);
+    formData.append('stock', +stock);
+    formData.append('categoryId', categoryId);
 
     // eslint-disable-next-line no-plusplus
-    if (form.formDataImages.length > 0) {
-      Array.from(form.formDataImages).map((i) => formData.append('product', i));
+    if (formDataImages.length > 0) {
+      Array.from(formDataImages).map((i) => formData.append('product', i));
     }
 
     if (id) {
@@ -110,149 +163,167 @@ export default function AddProduct({ history, match }) {
         handleConfirm={handleDelete}
       />
 
-      <Container className="py-2">
-        <Row>
-          <Col className="border-end d-flex justify-content-center mt-5">
-            <ProductCard
-              name={form.name}
-              offer={form.offer}
-              price={form.price}
-              img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
-              rating={2.5}
+      <Row className="py-4">
+        <Col className="d-flex justify-content-center my-5 fixed">
+          <ProductCard
+            name={form.name}
+            offer={form.offer}
+            price={form.price}
+            img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
+            rating={2.5}
+          />
+        </Col>
+        <Col className="d-flex flex-column justify-content-center align-items-center">
+          <Form className="shadow rounded p-4 product-form">
+            <p className="h3 text-center">Add product</p>
+            <FormGroup
+              name="name"
+              label="Product name"
+              onChange={handleChange}
+              value={form.name}
+              placeholder="Enter product name"
+              error={errors.name}
             />
-          </Col>
-          <Col className="d-flex flex-column justify-content-center align-items-center">
-            <Form className="shadow rounded p-4 product-form">
-              <p className="h3 text-center">Add product</p>
-              <FormGroup
-                name="name"
-                label="Product name"
-                onChange={handleChange}
-                value={form.name}
-                placeholder="Enter product name"
-              />
-              <FormGroup
-                name="description"
-                label="Product description"
-                onChange={handleChange}
-                value={form.description}
-                as="textarea"
-                style={{ height: '10px' }}
-                placeholder="Enter product description"
-              />
-              <Row>
-                <Col>
-                  <FormGroup
-                    name="price"
-                    label="Original price"
-                    onChange={handleChange}
-                    type="number"
-                    min="1"
-                    value={form.price}
-                    placeholder="Original price"
-                  />
-                </Col>
-                <Col>
-                  <FormGroup
-                    name="offer"
-                    label="Discounted price"
-                    onChange={handleChange}
-                    value={form.offer}
-                    type="number"
-                    min="1"
-                    placeholder="Discounted price"
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup
-                    name="stock"
-                    label="Available stock"
-                    onChange={handleChange}
-                    value={form.stock}
-                    type="number"
-                    step="1"
-                    min="1"
-                    placeholder="Enter available stock number"
-                  />
-                </Col>
-                <Col>
-                  <FormSelect
-                    name="categoryId"
-                    label="Category"
-                    arr={categories}
-                    onChange={handleChange}
-                    value={form.categoryId}
-                  />
-                </Col>
-              </Row>
-              <FormGroup
-                name="seller"
-                label="Seller name"
-                // onChange={handleChange}
-                readOnly
-                value={form.seller}
-                placeholder="Enter seller name"
-              />
-              <FormGroup
-                name="images"
-                label="Product images"
-                onChange={handleImage}
-                type="file"
-                id="upload"
-                style={{ display: 'none' }}
-                multiple
-                placeholder="Upload product images"
-                classes="m-0"
-              />
-              {prevImages?.length > 0 &&
-                prevImages.map((i, idx) => (
-                  <img
-                    src={i}
-                    alt={i}
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={idx}
-                    className="mb-3 me-2"
-                    style={{ width: '66px', height: '66px' }}
-                  />
-                ))}
-              {
-                // eslint-disable-next-line jsx-a11y/label-has-associated-control
-                <label
-                  htmlFor="upload"
-                  className="camera mb-2 p-3 border"
-                  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-                  role="button"
-                >
-                  <i className="fas fa-camera fa-2x" />
-                </label>
-              }
-              <Button type="submit" onClick={handleSubmit} className="w-100">
-                {id ? 'Update product' : 'Add product'}
-              </Button>
+            <FormGroup
+              name="description"
+              label="Product description"
+              onChange={handleChange}
+              value={form.description}
+              as="textarea"
+              style={{ height: '10px' }}
+              placeholder="Enter product description"
+              error={errors.description}
+            />
+            <Row>
+              <Col>
+                <FormGroup
+                  name="price"
+                  label="Original price"
+                  onChange={handleChange}
+                  type="number"
+                  min="1"
+                  value={form.price}
+                  placeholder="Original price"
+                  error={errors.price}
+                />
+              </Col>
+              <Col>
+                <FormGroup
+                  name="offer"
+                  label="Discounted price"
+                  onChange={handleChange}
+                  value={form.offer}
+                  type="number"
+                  min="1"
+                  placeholder="Discounted price"
+                  error={errors.offer}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FormGroup
+                  name="stock"
+                  label="Available stock"
+                  onChange={handleChange}
+                  value={form.stock}
+                  type="number"
+                  step="1"
+                  min="1"
+                  placeholder="Enter available stock number"
+                  error={errors.stock}
+                />
+              </Col>
+              <Col>
+                <FormSelect
+                  name="categoryId"
+                  label="Category"
+                  arr={categories}
+                  onChange={handleChange}
+                  value={form.categoryId}
+                  error={errors.categoryId}
+                />
+              </Col>
+            </Row>
+            <FormGroup
+              name="seller"
+              label="Seller name"
+              // onChange={handleChange}
+              readOnly
+              value={form.seller}
+              placeholder="Enter seller name"
+              error={errors.seller}
+            />
+            <FormGroup
+              name="images"
+              label="Product images"
+              onChange={handleImage}
+              type="file"
+              id="upload"
+              style={{ display: 'none' }}
+              multiple
+              placeholder="Upload product images"
+              classes="m-0"
+            />
+            {prevImages?.length > 0 &&
+              prevImages.map((i, idx) => (
+                <img
+                  src={i}
+                  alt={i}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={idx}
+                  className="mb-3 me-2"
+                  style={{ width: '66px', height: '66px' }}
+                />
+              ))}
+            {
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              <label
+                htmlFor="upload"
+                className="camera mb-2 p-3 border"
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+                role="button"
+              >
+                <i className="fas fa-camera fa-2x" />
+              </label>
+            }
+            {errors.formDataImages && (
+              <Form.Text className="text-danger d-block mb-1">
+                {errors.formDataImages}
+              </Form.Text>
+            )}
+            {productError && (
+              <Form.Text
+                className="text-danger d-block mb-1 text-center"
+                style={{ fontSize: '16px' }}
+              >
+                {productError}
+              </Form.Text>
+            )}
+            <Button type="submit" onClick={handleSubmit} className="w-100">
+              {id ? 'Update product' : 'Add product'}
+            </Button>
 
-              {id && (
-                <Button
-                  variant="danger"
-                  // onClick={() => dispatch(deleteProduct(id, history))}
-                  onClick={() => setShow(true)}
-                  className="w-100 mt-1"
-                >
-                  Delete product
-                </Button>
-              )}
+            {id && (
               <Button
-                variant="secondary"
-                onClick={() => history.goBack()}
+                variant="danger"
+                // onClick={() => dispatch(deleteProduct(id, history))}
+                onClick={() => setShow(true)}
                 className="w-100 mt-1"
               >
-                {id ? 'Cancel updating' : 'Go back'}
+                Delete product
               </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+            )}
+            <Button
+              variant="secondary"
+              onClick={() => history.goBack()}
+              className="w-100 mt-1"
+            >
+              {id ? 'Cancel updating' : 'Go back'}
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 }
