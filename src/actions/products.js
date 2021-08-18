@@ -7,12 +7,16 @@ import {
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   RATE_PRODUCT,
+  START_LOADING,
+  STOP_LOADING,
 } from '../actionTypes';
 
 export const getProducts = () => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.getProducts();
     dispatch({ type: GET_PRODUCTS, payload: data });
+    dispatch({ type: STOP_LOADING });
   } catch (err) {
     console.log('Error', err.message);
   }
@@ -38,8 +42,10 @@ export const getProduct = (id) => async (dispatch) => {
 
 export const addProduct = (product, router) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.addProduct(product);
     dispatch({ type: ADD_PRODUCT, payload: data });
+    dispatch({ type: STOP_LOADING });
     router.push('/products');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
@@ -48,8 +54,10 @@ export const addProduct = (product, router) => async (dispatch) => {
 };
 export const updateProduct = (id, product, router) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.updateProduct(id, product);
     dispatch({ type: UPDATE_PRODUCT, payload: data });
+    dispatch({ type: STOP_LOADING });
     router.push('/products');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
@@ -59,8 +67,10 @@ export const updateProduct = (id, product, router) => async (dispatch) => {
 
 export const deleteProduct = (id, router) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.deleteProduct(id);
     dispatch({ type: DELETE_PRODUCT, payload: data._id });
+    dispatch({ type: STOP_LOADING });
     router.push('/products');
   } catch (err) {
     console.log(err.message);

@@ -6,10 +6,18 @@ import {
   UPDATE_PRODUCT,
   RATE_PRODUCT,
   DELETE_PRODUCT,
+  START_LOADING,
+  STOP_LOADING,
 } from '../actionTypes';
 
-const productReducer = (state = { products: [] }, action) => {
+const productReducer = (state = { products: [], isLoading: true }, action) => {
   switch (action.type) {
+    case START_LOADING:
+      return { ...state, isLoading: true };
+
+    case STOP_LOADING:
+      return { ...state, isLoading: false };
+
     case GET_PRODUCTS:
       return { ...state, products: action.payload };
 

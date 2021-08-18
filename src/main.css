@@ -102,6 +102,23 @@ button:active:focus {
   font-size: 2rem;
 }
 
+.loader {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  padding-top: 200px;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.animation {
+  /* z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+}
 @media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;

@@ -18,10 +18,12 @@ import VendorRoute from './common/ProtectedRouteVendor';
 import 'react-toastify/dist/ReactToastify.css';
 import MyProducts from './components/MyProducts';
 import AddProduct from './components/AddProduct';
+import Loader from './common/Loader';
 
 const App = () => {
   const dispatch = useDispatch();
   const { authData } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.products);
   const [user, setUser] = useState(() => getUser());
 
   useEffect(() => {
@@ -39,6 +41,7 @@ const App = () => {
       <BrowserRouter>
         <ToastContainer />
         <TopBar user={user} />
+        {isLoading && <Loader />}
         <Container>
           <Switch>
             <Route
