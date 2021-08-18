@@ -64,7 +64,7 @@ button:active:focus {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   white-space: normal;
-  height: 45px;
+  height: 48px;
 }
 
 .preview-container {

@@ -11,7 +11,7 @@ export default function ProductCard({
 }) {
   return (
     <Card
-      style={{ width: '260px', height: '330px', overflow: 'hidden' }}
+      style={{ width: '260px', height: '320px', overflow: 'hidden' }}
       className={`rounded-3 ${classes}`}
     >
       <Card.Img
@@ -25,8 +25,9 @@ export default function ProductCard({
           height: '180px',
           objectFit: 'contain',
         }}
+        className="p-2"
       />
-      <Card.Body>
+      <Card.Body style={{ marginTop: '-10px' }}>
         <p className="text-truncate text-truncate--2">{name}</p>
         <span className="me-1 fw-bold">${offer}</span>
         {price && (
