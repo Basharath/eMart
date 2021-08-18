@@ -11,15 +11,18 @@ export default function ProductCard({
 }) {
   return (
     <Card
-      style={{ width: '300px', height: '350px', overflow: 'hidden' }}
-      className={classes}
+      style={{ width: '260px', height: '330px', overflow: 'hidden' }}
+      className={`rounded-3 ${classes}`}
     >
       <Card.Img
         variant="top"
-        src={img}
+        src={
+          img ||
+          'https://i.postimg.cc/TPcWd5hH/placeholder-images-image-large.png'
+        }
         style={{
-          width: '300px',
-          height: '200px',
+          width: '100%',
+          height: '180px',
           objectFit: 'contain',
         }}
       />
