@@ -70,17 +70,20 @@ export default function AddProduct({ history, match }) {
     const filesArray = Array.from(currentTarget.files).map((file) =>
       URL.createObjectURL(file)
     );
-    setPrevImages(filesArray);
+    setPrevImages((prev) => [...prev, filesArray]);
     Array.from(currentTarget.files).map(
       (file) => URL.revokeObjectURL(file) // to avoid memory leak
     );
     // const src = URL.createObjectURL(currentTarget.files[0]);
+
     setForm((prev) => ({
       ...prev,
-      formDataImages: currentTarget.files,
+      formDataImages: [...prev.formDataImages, ...currentTarget.files],
     }));
   };
 
+  // console.log('formData', form.formDataImages);
+  // console.log('prevImages', prevImages);
   const productSchema = Joi.object({
     name: Joi.string().min(5).max(255).required().label('Name'),
     description: Joi.string().min(20).required().label('Description'),
@@ -92,7 +95,7 @@ export default function AddProduct({ history, match }) {
     seller: Joi.string().required(),
     categoryId: Joi.string().required().label('Category'),
     stock: Joi.string().required().label('Stock'),
-    formDataImages: Joi.object()
+    formDataImages: Joi.array()
       .required()
       .label('At least one image has to be selected'),
   });
@@ -151,6 +154,15 @@ export default function AddProduct({ history, match }) {
     } else dispatch(addProduct(formData, history));
   };
 
+  const handlePreview = (index) => {
+    const images = [...prevImages].filter((i, idx) => idx !== index);
+    const formDataImages = [...form.formDataImages].filter(
+      (i, idx) => idx !== index
+    );
+    setPrevImages(() => images);
+    setForm((prev) => ({ ...prev, formDataImages }));
+  };
+
   const handleDelete = () => dispatch(deleteProduct(id, history));
 
   const handleClose = () => setShow(false);
@@ -171,6 +183,7 @@ export default function AddProduct({ history, match }) {
             price={form.price}
             img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
             rating={2.5}
+            // classes="p-2"
           />
         </Col>
         <Col className="d-flex flex-column justify-content-center align-items-center">
@@ -261,20 +274,20 @@ export default function AddProduct({ history, match }) {
               type="file"
               id="upload"
               style={{ display: 'none' }}
-              multiple
               placeholder="Upload product images"
               classes="m-0"
             />
             {prevImages?.length > 0 &&
               prevImages.map((i, idx) => (
-                <img
-                  src={i}
-                  alt={i}
-                  // eslint-disable-next-line react/no-array-index-key
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                <div
+                  className="preview-container"
                   key={idx}
-                  className="mb-3 me-2"
-                  style={{ width: '66px', height: '66px' }}
-                />
+                  onClick={() => handlePreview(idx)}
+                >
+                  <img src={i} alt={i} className="preview-image" />
+                  <div className="preview-text">&times;</div>
+                </div>
               ))}
             {
               // eslint-disable-next-line jsx-a11y/label-has-associated-control

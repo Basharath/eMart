@@ -66,6 +66,42 @@ button:active:focus {
   white-space: normal;
   height: 45px;
 }
+
+.preview-container {
+  background-color: red;
+  width: 66px;
+  height: 66px;
+  display: inline-block;
+  position: relative;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.preview-container:hover .preview-text {
+  opacity: 0.9;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 16px;
+}
+
+.preview-text {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 102%;
+  height: 102%;
+  text-align: center;
+  line-height: 66px;
+  vertical-align: middle;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  font-size: 2rem;
+}
+
 @media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;
