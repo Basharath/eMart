@@ -52,7 +52,12 @@ export default function AddProduct({ history, match }) {
 
   useEffect(() => {
     if (id) {
-      setForm((prev) => ({ ...prev, ...p, categoryId: p?.category._id }));
+      setForm((prev) => ({
+        ...prev,
+        ...p,
+        categoryId: p?.category._id,
+        formDataImages: [],
+      }));
       setPrevImages(() => p?.images.map((i) => i.url));
       if (user.id !== p?.userId && !user.isAdmin) history.push('/');
     } else {
@@ -84,11 +89,11 @@ export default function AddProduct({ history, match }) {
   const productSchema = {
     name: Joi.string().min(5).max(255).required().label('Name'),
     description: Joi.string().min(20).required().label('Description'),
-    offer: Joi.string().required().label('Discounted price'),
-    price: Joi.string().required().label('Original price'),
+    offer: Joi.number().required().label('Discounted price'),
+    price: Joi.number().required().label('Original price'),
     seller: Joi.string().required(),
     categoryId: Joi.string().required().label('Category'),
-    stock: Joi.string().required().label('Stock'),
+    stock: Joi.number().required().label('Stock'),
     formDataImages: Joi.array()
       .required()
       .label('At least one image has to be selected'),
@@ -110,7 +115,8 @@ export default function AddProduct({ history, match }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { images, ...data } = form;
+
+    const { images, rating, _id, category, userId, ...data } = form;
     const errs = validateProduct(data);
     setErrors({ ...(errs || {}) });
 
@@ -154,9 +160,12 @@ export default function AddProduct({ history, match }) {
     setForm((prev) => ({ ...prev, formDataImages }));
   };
 
-  const handleDelete = () => dispatch(deleteProduct(id, history));
-
   const handleClose = () => setShow(false);
+
+  const handleDelete = () => {
+    handleClose();
+    dispatch(deleteProduct(id, history));
+  };
 
   return (
     <>
