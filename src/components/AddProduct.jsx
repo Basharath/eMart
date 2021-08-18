@@ -1,8 +1,7 @@
 import FormData from 'form-data';
-import Joi from 'joi';
+import Joi from 'joi-browser';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -82,30 +81,22 @@ export default function AddProduct({ history, match }) {
     }));
   };
 
-  // console.log('formData', form.formDataImages);
-  // console.log('prevImages', prevImages);
-  const productSchema = Joi.object({
+  const productSchema = {
     name: Joi.string().min(5).max(255).required().label('Name'),
     description: Joi.string().min(20).required().label('Description'),
     offer: Joi.string().required().label('Discounted price'),
-    price: Joi.string()
-      .required()
-      .label('Original price')
-      .messages({ 'any.required': 'Must have at least 8 characters' }),
+    price: Joi.string().required().label('Original price'),
     seller: Joi.string().required(),
     categoryId: Joi.string().required().label('Category'),
     stock: Joi.string().required().label('Stock'),
     formDataImages: Joi.array()
       .required()
       .label('At least one image has to be selected'),
-  });
-
-  // console.log('errs', errors);
+  };
 
   const validateProduct = (data) => {
     const options = { abortEarly: false };
-    const { error } = productSchema.validate(data, options);
-    console.log('error', error?.details);
+    const { error } = Joi.validate(data, productSchema, options);
     if (!error) return null;
 
     const errs = {};
@@ -183,7 +174,6 @@ export default function AddProduct({ history, match }) {
             price={form.price}
             img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
             rating={2.5}
-            // classes="p-2"
           />
         </Col>
         <Col className="d-flex flex-column justify-content-center align-items-center">
