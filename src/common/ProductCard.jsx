@@ -1,5 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import StarRating from 'react-star-ratings';
+import { getRandomRating, getRandomCount } from '../utils';
 
 export default function ProductCard({
   name,
@@ -8,10 +9,17 @@ export default function ProductCard({
   rating = 0,
   img,
   classes,
+  width,
+  height,
 }) {
   return (
     <Card
-      style={{ width: '260px', height: '320px', overflow: 'hidden' }}
+      style={{
+        width: width || '240px',
+        height: height || '320px',
+        overflow: 'hidden',
+        margin: 'auto',
+      }}
       className={`rounded-3 ${classes}`}
     >
       <Card.Img
@@ -45,11 +53,12 @@ export default function ProductCard({
         )}
         <br />
         <StarRating
-          rating={rating}
+          rating={rating || getRandomRating()}
           starDimension="18px"
           starSpacing="1px"
           starRatedColor="#ffc107"
         />
+        <span className="starCount">({getRandomCount()})</span>
       </Card.Body>
     </Card>
   );
