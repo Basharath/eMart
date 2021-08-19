@@ -120,6 +120,11 @@ button:active:focus {
   margin-bottom: -5px;
 }
 
+.product-edit {
+  font-size: 13px;
+  width: 70px;
+}
+
 @media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;
