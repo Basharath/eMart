@@ -1,12 +1,15 @@
 import jwtDecode from 'jwt-decode';
 import * as api from '../api';
-import { AUTH, LOGOUT, AUTH_ERROR } from '../actionTypes';
+import { AUTH, LOGOUT, AUTH_ERROR, START_LOADING, STOP_LOADING } from '../actionTypes';
 
 export const login = (userData, location, history) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING })
+
     const { data } = await api.signInUser(userData);
     dispatch({ type: AUTH, payload: data });
 
+    dispatch({ type: STOP_LOADING })
     const { state } = location;
     // window.location = state ? state.from.pathname : '/';
     history.push(state ? state.from.pathname : '/');
@@ -18,10 +21,12 @@ export const login = (userData, location, history) => async (dispatch) => {
 
 export const signup = (userData, location, history) => async (dispatch) => {
   try {
-    const { data } = await api.signUpUser(userData);
+    dispatch({ type: START_LOADING })
 
+    const { data } = await api.signUpUser(userData);
     dispatch({ type: AUTH, payload: data });
 
+    dispatch({ type: STOP_LOADING })
     const { state } = location;
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
