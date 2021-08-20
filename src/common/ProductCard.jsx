@@ -38,7 +38,7 @@ export default function ProductCard({
         overflow: 'hidden',
         margin: 'auto',
       }}
-      className={`rounded-3 ${classes}`}
+      className={`rounded-3 ${classes} product-card`}
     >
       <Card.Img
         variant="top"
@@ -48,14 +48,14 @@ export default function ProductCard({
         }
         style={{
           width: '100%',
-          height: '180px',
+          height: '170px',
           objectFit: 'contain',
         }}
         className="p-2"
       />
       <Card.Body style={{ marginTop: '-10px' }}>
         <p className="text-truncate text-truncate--2">{name}</p>
-        <div>
+        <div style={{ height: '20px', marginTop: '-5px' }}>
           <span className="me-1 fw-bold">${offer}</span>
           {price && (
             <span
@@ -71,13 +71,15 @@ export default function ProductCard({
             </span>
           )}
         </div>
-        <StarRating
-          rating={rating || ratingData.rating}
-          starDimension="18px"
-          starSpacing="1px"
-          starRatedColor="#ffc107"
-        />
-        <span className="starCount">({count || ratingData.count})</span>
+        <div>
+          <StarRating
+            rating={rating || ratingData.rating}
+            starDimension="18px"
+            starSpacing="1px"
+            starRatedColor="#ffc107"
+          />
+          <span className="starCount">({count || ratingData.count})</span>
+        </div>
         {myproduct && (
           <div className="mt-3">
             <Link className="btn btn-primary btn-sm product-edit" to={onEdit}>

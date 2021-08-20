@@ -68,7 +68,7 @@ button:active:focus {
 }
 
 .preview-container {
-  background-color: red;
+  /* background-color: red; */
   width: 66px;
   height: 66px;
   display: inline-block;
@@ -125,6 +125,13 @@ button:active:focus {
   width: 70px;
 }
 
+.inactive,
+.inactive:active,
+.inactive:hover {
+  cursor: default;
+  background-color: hsl(45, 100%, 70%);
+}
+
 @media (max-width: 768px) {
   .search-mobile {
     margin: 10px 0;
@@ -146,6 +153,13 @@ button:active:focus {
   .product-form {
     width: 320px;
   }
+  .product-card {
+    width: 310px !important;
+    height: 340px !important;
+  }
+  .add-product {
+    width: 180px !important;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -153,6 +167,11 @@ button:active:focus {
     position: relative;
     top: -20px;
     left: 10px;
+  }
+
+  .product-preview {
+    position: absolute;
+    top: 10px;
   }
 
   .product-form {

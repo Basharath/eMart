@@ -22,7 +22,8 @@
     "react/jsx-props-no-spreading": "off",
     "no-useless-escape": "off",
     "jsx-a11y/no-static-element-interactions": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "consistent-return": "off"
     // "linebreak-style": "off",
     // "implicit-arrow-linebreak": "off"
   }

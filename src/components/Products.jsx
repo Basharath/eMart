@@ -5,7 +5,7 @@ export default function Products() {
   const { products } = useSelector((state) => state.products);
 
   return (
-    <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+    <div className="d-flex flex-wrap justify-content-center justify-content-xl-start pb-5">
       {products?.map((p) => (
         <ProductCard
           name={p.name}
@@ -15,7 +15,7 @@ export default function Products() {
           classes="m-2"
           key={p._id}
           display
-          height="360px"
+          height="345px"
         />
       ))}
     </div>
