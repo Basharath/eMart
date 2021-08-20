@@ -10,7 +10,10 @@ import {
   STOP_LOADING,
 } from '../actionTypes';
 
-const productReducer = (state = { products: [], isLoading: true }, action) => {
+const productReducer = (
+  state = { products: [], isLoading: true, error: null },
+  action
+) => {
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };
@@ -28,7 +31,11 @@ const productReducer = (state = { products: [], isLoading: true }, action) => {
       return { ...state, product: action.payload };
 
     case ADD_PRODUCT:
-      return { ...state, products: [...state.products, action.payload] };
+      return {
+        ...state,
+        products: [...state.products, action.payload],
+        error: null,
+      };
 
     case UPDATE_PRODUCT:
       return {
@@ -36,6 +43,7 @@ const productReducer = (state = { products: [], isLoading: true }, action) => {
         products: state.products.map((p) =>
           p._id === action.payload._id ? action.payload : p
         ),
+        error: null,
       };
 
     case RATE_PRODUCT:
