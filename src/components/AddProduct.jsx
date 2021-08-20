@@ -28,7 +28,7 @@ export default function AddProduct({ history, match }) {
     stock: '',
     seller: user?.name,
     categoryId: '',
-    images: '',
+    images: [],
     formDataImages: '',
   };
 
@@ -66,26 +66,6 @@ export default function AddProduct({ history, match }) {
     }
   }, [p, id]);
 
-  const handleChange = ({ currentTarget }) => {
-    setForm((prev) => ({ ...prev, [currentTarget.name]: currentTarget.value }));
-  };
-
-  const handleImage = ({ currentTarget }) => {
-    const filesArray = Array.from(currentTarget.files).map((file) =>
-      URL.createObjectURL(file)
-    );
-    setPrevImages((prev) => [...prev, filesArray]);
-    Array.from(currentTarget.files).map(
-      (file) => URL.revokeObjectURL(file) // to avoid memory leak
-    );
-    // const src = URL.createObjectURL(currentTarget.files[0]);
-
-    setForm((prev) => ({
-      ...prev,
-      formDataImages: [...prev.formDataImages, ...currentTarget.files],
-    }));
-  };
-
   const productSchema = {
     name: Joi.string().min(5).max(255).required().label('Name'),
     description: Joi.string().min(20).required().label('Description'),
@@ -94,6 +74,7 @@ export default function AddProduct({ history, match }) {
     seller: Joi.string().required(),
     categoryId: Joi.string().required().label('Category'),
     stock: Joi.number().required().label('Stock'),
+    images: Joi.array(),
     formDataImages: Joi.array()
       .required()
       .label('At least one image has to be selected'),
@@ -116,7 +97,7 @@ export default function AddProduct({ history, match }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { images, rating, _id, category, userId, ...data } = form;
+    const { rating, _id, category, userId, ...data } = form;
     const errs = validateProduct(data);
     setErrors({ ...(errs || {}) });
 
@@ -130,6 +111,7 @@ export default function AddProduct({ history, match }) {
       seller,
       stock,
       categoryId,
+      images,
       formDataImages,
     } = form;
 
@@ -140,8 +122,8 @@ export default function AddProduct({ history, match }) {
     formData.append('seller', seller);
     formData.append('stock', +stock);
     formData.append('categoryId', categoryId);
+    formData.append('images', JSON.stringify(images));
 
-    // eslint-disable-next-line no-plusplus
     if (formDataImages.length > 0) {
       Array.from(formDataImages).map((i) => formData.append('product', i));
     }
@@ -151,13 +133,37 @@ export default function AddProduct({ history, match }) {
     } else dispatch(addProduct(formData, history));
   };
 
+  const handleChange = ({ currentTarget }) => {
+    setForm((prev) => ({ ...prev, [currentTarget.name]: currentTarget.value }));
+  };
+
+  const handleImage = ({ currentTarget }) => {
+    const filesArray = Array.from(currentTarget.files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setPrevImages((prev) => [...prev, filesArray]);
+    Array.from(currentTarget.files).map(
+      (file) => URL.revokeObjectURL(file) // to avoid memory leak
+    );
+    // const src = URL.createObjectURL(currentTarget.files[0]);
+
+    setForm((prev) => ({
+      ...prev,
+      formDataImages: [...prev.formDataImages, ...currentTarget.files],
+    }));
+  };
+
   const handlePreview = (index) => {
-    const images = [...prevImages].filter((i, idx) => idx !== index);
+    const previewImages = [...prevImages].filter((i, idx) => idx !== index);
     const formDataImages = [...form.formDataImages].filter(
       (i, idx) => idx !== index
     );
-    setPrevImages(() => images);
-    setForm((prev) => ({ ...prev, formDataImages }));
+    // const formImages = [...form.images];
+    const images = form.images.filter((i) =>
+      previewImages.some((pI) => pI === i.url)
+    );
+    setPrevImages(() => previewImages);
+    setForm((prev) => ({ ...prev, formDataImages, images }));
   };
 
   const handleClose = () => setShow(false);
@@ -182,7 +188,9 @@ export default function AddProduct({ history, match }) {
             offer={form.offer}
             price={form.price}
             img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
-            rating={2.5}
+            width="260px"
+            rating={5}
+            count={1}
           />
         </Col>
         <Col className="d-flex flex-column justify-content-center align-items-center">
