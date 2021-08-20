@@ -1,37 +1,45 @@
 import jwtDecode from 'jwt-decode';
 import * as api from '../api';
-import { AUTH, LOGOUT, AUTH_ERROR, START_LOADING, STOP_LOADING } from '../actionTypes';
+import {
+  AUTH,
+  LOGOUT,
+  AUTH_ERROR,
+  START_LOADING,
+  STOP_LOADING,
+} from '../actionTypes';
 
 export const login = (userData, location, history) => async (dispatch) => {
   try {
-    dispatch({ type: START_LOADING })
+    dispatch({ type: START_LOADING });
 
     const { data } = await api.signInUser(userData);
     dispatch({ type: AUTH, payload: data });
 
-    dispatch({ type: STOP_LOADING })
+    dispatch({ type: STOP_LOADING });
     const { state } = location;
     // window.location = state ? state.from.pathname : '/';
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: AUTH_ERROR, payload: data });
+    dispatch({ type: STOP_LOADING });
   }
 };
 
 export const signup = (userData, location, history) => async (dispatch) => {
   try {
-    dispatch({ type: START_LOADING })
+    dispatch({ type: START_LOADING });
 
     const { data } = await api.signUpUser(userData);
     dispatch({ type: AUTH, payload: data });
 
-    dispatch({ type: STOP_LOADING })
+    dispatch({ type: STOP_LOADING });
     const { state } = location;
     history.push(state ? state.from.pathname : '/');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: AUTH_ERROR, payload: data });
+    dispatch({ type: STOP_LOADING });
   }
 };
 

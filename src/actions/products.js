@@ -50,6 +50,7 @@ export const addProduct = (product, router) => async (dispatch) => {
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: 'PRODUCT_ERROR', payload: data });
+    dispatch({ type: STOP_LOADING });
   }
 };
 export const updateProduct = (id, product, router) => async (dispatch) => {
@@ -62,6 +63,7 @@ export const updateProduct = (id, product, router) => async (dispatch) => {
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: 'PRODUCT_ERROR', payload: data });
+    dispatch({ type: STOP_LOADING });
   }
 };
 
