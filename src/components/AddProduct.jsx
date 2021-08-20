@@ -2,6 +2,7 @@ import FormData from 'form-data';
 import Joi from 'joi-browser';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -32,9 +33,11 @@ export default function AddProduct({ history, match }) {
     formDataImages: '',
   };
 
-  const { product: p, error: productError } = useSelector(
-    (state) => state.products
-  );
+  const {
+    product: p,
+    error: productError,
+    vendorProds,
+  } = useSelector((state) => state.products);
   const [form, setForm] = useState(() => initialState);
   const [prevImages, setPrevImages] = useState([]);
   const dispatch = useDispatch();
@@ -43,6 +46,8 @@ export default function AddProduct({ history, match }) {
   const [errors, setErrors] = useState({});
   const { id } = match.params;
   const formData = new FormData();
+  const LIMIT = process.env.REACT_APP_PRODUCT_LIMIT || 4;
+  const productLimit = vendorProds?.length >= LIMIT;
 
   useEffect(() => {
     if (id) {
@@ -59,12 +64,15 @@ export default function AddProduct({ history, match }) {
         formDataImages: [],
       }));
       setPrevImages(() => p?.images.map((i) => i.url));
-      if (user.id !== p?.userId && !user.isAdmin) history.push('/');
     } else {
       setForm(initialState);
       setPrevImages([]);
     }
   }, [p, id]);
+
+  if (p) {
+    if (user.id !== p?.userId && !user.isAdmin) history.push('/');
+  }
 
   const productSchema = {
     name: Joi.string().min(5).max(255).required().label('Name'),
@@ -138,6 +146,15 @@ export default function AddProduct({ history, match }) {
   };
 
   const handleImage = ({ currentTarget }) => {
+    if (!currentTarget.files[0].type.includes('image'))
+      return toast.error('Only images are allowed to upload');
+
+    if (currentTarget.files[0].size > 3000000)
+      return toast.error('Image size should be less than 3Mb');
+
+    if (prevImages.length >= 4)
+      return toast.error('Only 4 images are allowed to upload');
+
     const filesArray = Array.from(currentTarget.files).map((file) =>
       URL.createObjectURL(file)
     );
@@ -181,8 +198,9 @@ export default function AddProduct({ history, match }) {
         handleConfirm={handleDelete}
       />
 
-      <Row className="py-4">
-        <Col className="d-flex justify-content-center my-5 fixed">
+      <Row className="py-3">
+        <Col className="d-flex flex-xl-row flex-column align-items-center justify-content-xl-center my-5 fixed">
+          <p className="h3 text-center product-preview mb-4">Product preview</p>
           <ProductCard
             name={form.name}
             offer={form.offer}
@@ -193,7 +211,7 @@ export default function AddProduct({ history, match }) {
             count={1}
           />
         </Col>
-        <Col className="d-flex flex-column justify-content-center align-items-center">
+        <Col className="d-flex flex-column justify-content-center align-items-center pb-4">
           <Form className="shadow rounded p-4 product-form">
             <p className="h3 text-center">Add product</p>
             <FormGroup
@@ -218,7 +236,7 @@ export default function AddProduct({ history, match }) {
               <Col>
                 <FormGroup
                   name="price"
-                  label="Original price"
+                  label="Original price ($)"
                   onChange={handleChange}
                   type="number"
                   min="1"
@@ -230,7 +248,7 @@ export default function AddProduct({ history, match }) {
               <Col>
                 <FormGroup
                   name="offer"
-                  label="Discounted price"
+                  label="Discounted price ($)"
                   onChange={handleChange}
                   value={form.offer}
                   type="number"
@@ -279,6 +297,7 @@ export default function AddProduct({ history, match }) {
               label="Product images"
               onChange={handleImage}
               type="file"
+              accept="image/*"
               id="upload"
               style={{ display: 'none' }}
               placeholder="Upload product images"
@@ -320,7 +339,12 @@ export default function AddProduct({ history, match }) {
                 {productError}
               </Form.Text>
             )}
-            <Button type="submit" onClick={handleSubmit} className="w-100">
+            <Button
+              disabled={productLimit}
+              type="submit"
+              onClick={handleSubmit}
+              className="w-100"
+            >
               {id ? 'Update product' : 'Add product'}
             </Button>
 

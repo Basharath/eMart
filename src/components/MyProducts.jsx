@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 import Popup from '../common/Popup';
 import ProductCard from '../common/ProductCard';
 import { getVendorProducts, deleteProduct } from '../actions/products';
@@ -12,6 +14,8 @@ export default function MyProducts() {
   const [productId, setProductId] = useState(1);
   const dispatch = useDispatch();
   const { isAdmin, id } = getUser() || {};
+  const LIMIT = process.env.REACT_APP_PRODUCT_LIMIT || 4;
+  const productLimit = products.length >= LIMIT;
 
   useEffect(() => {
     dispatch(getVendorProducts(isAdmin ? '' : id));
@@ -36,11 +40,26 @@ export default function MyProducts() {
         handleClose={handleClose}
         handleConfirm={handleDelete}
       />
-      <Link to="/add-product" className="btn btn-warning d-block mx-auto w-25">
-        Add product
-      </Link>
+      {!isAdmin && !productLimit && (
+        <Alert variant="info" className="p-1 text-center">
+          <i className="fas fa-info-circle" /> You can add upto four products
+          only
+        </Alert>
+      )}
+      {!isAdmin && productLimit ? (
+        <Button className="btn btn-warning d-block mx-auto w-25" disabled>
+          Your product limit of 4 reached!
+        </Button>
+      ) : (
+        <Link
+          to="/add-product"
+          className="btn btn-warning d-block mx-auto w-25 add-product"
+        >
+          Add product
+        </Link>
+      )}
       <h3 className="text-center my-3">My Products</h3>
-      <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+      <div className="d-flex flex-wrap justify-content-center justify-content-lg-start pb-4">
         {products?.map((p) => (
           <ProductCard
             id={p._id}
@@ -49,9 +68,9 @@ export default function MyProducts() {
             price={p.price}
             img={p.images[0]?.url}
             key={p._id}
-            height="360px"
+            height="345px"
             overflow="hidden"
-            classes="m-1"
+            classes="m-2"
             myproduct
             onEdit={`/update-product/${p._id}`}
             onDelete={handleSetData}
