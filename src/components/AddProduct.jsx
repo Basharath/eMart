@@ -340,7 +340,7 @@ export default function AddProduct({ history, match }) {
               </Form.Text>
             )}
             <Button
-              disabled={productLimit}
+              disabled={!user.isAdmin && productLimit}
               type="submit"
               onClick={handleSubmit}
               className="w-100"
