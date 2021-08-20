@@ -65,17 +65,20 @@ export const updateProduct = (id, product, router) => async (dispatch) => {
   }
 };
 
-export const deleteProduct = (id, router) => async (dispatch) => {
-  try {
-    dispatch({ type: START_LOADING });
-    const { data } = await api.deleteProduct(id);
-    dispatch({ type: DELETE_PRODUCT, payload: data._id });
-    dispatch({ type: STOP_LOADING });
-    router.push('/products');
-  } catch (err) {
-    console.log(err.message);
-  }
-};
+export const deleteProduct =
+  (id, router = null) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: START_LOADING });
+      const { data } = await api.deleteProduct(id);
+      dispatch({ type: DELETE_PRODUCT, payload: data._id });
+      dispatch({ type: STOP_LOADING });
+      // eslint-disable-next-line no-unused-expressions
+      router ? router.push('/products') : (window.location = '/products');
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
 export const rateProduct = (id, rating) => async (dispatch) => {
   try {
