@@ -14,6 +14,8 @@ export default function Products() {
           img={p.images[0]?.url}
           classes="m-2"
           key={p._id}
+          display
+          height="360px"
         />
       ))}
     </div>
