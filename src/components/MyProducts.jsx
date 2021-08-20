@@ -42,13 +42,13 @@ export default function MyProducts() {
       />
       {!isAdmin && !productLimit && (
         <Alert variant="info" className="p-1 text-center">
-          <i className="fas fa-info-circle" /> You can add upto four products
+          <i className="fas fa-info-circle" /> You can add upto {LIMIT} products
           only
         </Alert>
       )}
       {!isAdmin && productLimit ? (
         <Button className="btn btn-warning d-block mx-auto w-25" disabled>
-          Your product limit of 4 reached!
+          Your product limit of {LIMIT} reached!
         </Button>
       ) : (
         <Link
