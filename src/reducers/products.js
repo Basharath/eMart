@@ -11,7 +11,7 @@ import {
 } from '../actionTypes';
 
 const productReducer = (
-  state = { products: [], isLoading: true, error: null },
+  state = { products: [], product: {}, isLoading: true, error: null },
   action
 ) => {
   switch (action.type) {
