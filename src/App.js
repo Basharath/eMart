@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import Container from 'react-bootstrap/Container';
 import { getProducts } from './actions/products';
-import { getUser, getAuth } from './actions/auth';
+import { getUser, getAuth, logout } from './actions/auth';
 import { getCategories } from './actions/categories';
 
 import TopBar from './components/TopBar';
@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import MyProducts from './components/MyProducts';
 import AddProduct from './components/AddProduct';
 import Loader from './common/Loader';
+import ProductDetails from './components/ProductDetails';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const App = () => {
   const [user, setUser] = useState(() => getUser());
 
   useEffect(() => {
+    if (!getUser()) dispatch(logout());
     dispatch(getProducts());
     dispatch(getCategories());
     if (!authData) dispatch(getAuth());
@@ -48,6 +50,7 @@ const App = () => {
               path="/login"
               render={() => (!user ? <Login /> : <Redirect to="/" />)}
             />
+            <Route path="/:slug/p/:id" component={ProductDetails} />
             <ProtectedRoute path="/orders" component={Orders} user={user} />
             <ProtectedRoute path="/cart" component={Cart} user={user} />
             <VendorRoute path="/add-product" component={AddProduct} />
