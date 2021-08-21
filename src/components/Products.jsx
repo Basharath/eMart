@@ -1,3 +1,4 @@
+// import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProductCard from '../common/ProductCard';
 
@@ -13,9 +14,10 @@ export default function Products() {
           price={p.price}
           img={p.images[0]?.url}
           classes="m-2"
-          key={p._id}
           display
           height="345px"
+          id={p._id}
+          key={p._id}
         />
       ))}
     </div>
