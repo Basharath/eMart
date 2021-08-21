@@ -71,7 +71,7 @@ export default function TopBar({ user }) {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavItem url="login" icon="user" text="Login" />
+              <NavItem url="/login" icon="user" text="Login" />
             )}
           </Nav>
         </Navbar.Collapse>
