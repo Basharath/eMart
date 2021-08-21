@@ -56,23 +56,23 @@ export default function AddProduct({ history, match }) {
   }, []);
 
   useEffect(() => {
-    if (id) {
+    if (id && Object.keys(p).length > 0) {
+      if (user.id !== p?.userId && !user.isAdmin) history.push('/');
       setForm((prev) => ({
         ...prev,
         ...p,
-        categoryId: p?.category._id,
+        categoryId: p?.category?._id,
         formDataImages: [],
       }));
-      setPrevImages(() => p?.images.map((i) => i.url));
+      setPrevImages(() => p?.images?.map((i) => i.url));
     } else {
       setForm(initialState);
       setPrevImages([]);
     }
+    if (Object.keys(p).length > 0) {
+      console.log('inside', p, user);
+    }
   }, [p, id]);
-
-  if (p) {
-    if (user.id !== p?.userId && !user.isAdmin) history.push('/');
-  }
 
   const productSchema = {
     name: Joi.string().min(5).max(255).required().label('Name'),
@@ -213,7 +213,7 @@ export default function AddProduct({ history, match }) {
         </Col>
         <Col className="d-flex flex-column justify-content-center align-items-center pb-4">
           <Form className="shadow rounded p-4 product-form">
-            <p className="h3 text-center">Add product</p>
+            <p className="h3 text-center">Product Details</p>
             <FormGroup
               name="name"
               label="Product name"
