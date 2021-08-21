@@ -23,7 +23,9 @@
     "no-useless-escape": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "react/no-array-index-key": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/interactive-supports-focus": "off"
     // "linebreak-style": "off",
     // "implicit-arrow-linebreak": "off"
   }
