@@ -40,21 +40,28 @@ export default function ProductCard({
       }}
       className={`rounded-3 ${classes} product-card`}
     >
-      <Card.Img
-        variant="top"
-        src={
-          img ||
-          'https://i.postimg.cc/TPcWd5hH/placeholder-images-image-large.png'
-        }
-        style={{
-          width: '100%',
-          height: '170px',
-          objectFit: 'contain',
-        }}
-        className="p-2"
-      />
-      <Card.Body style={{ marginTop: '-10px' }}>
-        <p className="text-truncate text-truncate--2">{name}</p>
+      <Link
+        to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${id}`}
+        className="product-card-clickable"
+      >
+        <Card.Img
+          variant="top"
+          src={
+            img ||
+            'https://i.postimg.cc/TPcWd5hH/placeholder-images-image-large.png'
+          }
+          style={{
+            width: '100%',
+            height: '170px',
+            objectFit: 'contain',
+          }}
+          className="p-2"
+        />
+        <Card.Body style={{ marginTop: '-10px' }}>
+          <p className="text-truncate text-truncate--2">{name}</p>
+        </Card.Body>
+      </Link>
+      <Card.Body style={{ marginTop: '-30px' }}>
         <div style={{ height: '20px', marginTop: '-5px' }}>
           <span className="me-1 fw-bold">${offer}</span>
           {price && (
