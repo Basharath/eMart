@@ -5,23 +5,34 @@ import Card from 'react-bootstrap/Card';
 import StarRating from 'react-star-ratings';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct } from '../actions/products';
+import { getProduct, resetPrdoError } from '../actions/products';
 import { capitalizeFirst } from '../utils';
 
-export default function ProductDetails({ match }) {
+export default function ProductDetails({ history, match }) {
   const { id } = match.params;
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState('');
   const [quantity, setQuantity] = useState(+1);
-  const { product: p = {}, products } = useSelector((state) => state.products);
+  const {
+    product: p = {},
+    products,
+    error,
+  } = useSelector((state) => state.products);
   const prod = products.filter((i) => i._id === id);
 
   useEffect(() => {
     if (!prod[0]) dispatch(getProduct(id));
   }, [id]);
 
+  useEffect(() => {
+    if (error) {
+      dispatch(resetPrdoError());
+      history.push('/');
+    }
+  }, [error]);
+
   const handleQuantity = (q) => {
-    if (+quantity === 0 && q === -1) return;
+    if ((+quantity <= 1 && q === -1) || (+quantity >= 20 && q === 1)) return;
     setQuantity((prev) => +prev + q);
   };
   const handleChange = ({ currentTarget }) => {
@@ -42,7 +53,7 @@ export default function ProductDetails({ match }) {
     setSelectedImage(() => imageUrl);
   };
 
-  // const src = selectedImage || (images && images[0].url);
+  const src = selectedImage || (images && images[0].url);
 
   return (
     <div>
@@ -54,7 +65,7 @@ export default function ProductDetails({ match }) {
           >
             <Card.Img
               variant="top"
-              src={selectedImage || (images && images[0].url)}
+              src={src}
               className="w-100 h-100 hover-zoom"
               style={{ objectFit: 'contain' }}
             />
@@ -64,7 +75,9 @@ export default function ProductDetails({ match }) {
               <div
                 key={i.cloudId}
                 onMouseEnter={() => handleHover(idx)}
-                className="product-detail-mini"
+                className={`product-detail-mini ${
+                  src === i.url ? 'active' : ''
+                }`}
               >
                 <img className="product-detail-image" src={i.url} alt={name} />
               </div>
@@ -110,7 +123,8 @@ export default function ProductDetails({ match }) {
             </span>
             <input
               type="number"
-              min="0"
+              min="1"
+              max="20"
               onChange={handleChange}
               className="fs-5 no-border quantity"
               value={quantity}

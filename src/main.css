@@ -159,8 +159,9 @@ input[type='number'] {
   padding: 5px;
 }
 
-.product-detail-mini:hover {
-  border: 1px solid dodgerblue;
+.product-detail-mini:hover,
+.product-detail-mini.active {
+  border: 2px solid dodgerblue;
 }
 
 .product-detail-image {
@@ -195,6 +196,21 @@ img.hover-zoom:hover {
 .quantity {
   width: 25px;
   text-align: center;
+}
+
+html::-webkit-scrollbar {
+  display: -moz-inline-box;
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  background-color: #ebebeb;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  outline: 1px solid #eee;
 }
 
 @media (max-width: 768px) {
