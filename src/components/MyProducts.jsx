@@ -62,14 +62,9 @@ export default function MyProducts() {
       <div className="d-flex flex-wrap justify-content-center justify-content-lg-start pb-4">
         {products?.map((p) => (
           <ProductCard
-            id={p._id}
-            name={p.name}
-            offer={p.offer}
-            price={p.price}
-            img={p.images[0]?.url}
+            product={p}
             key={p._id}
             height="345px"
-            overflow="hidden"
             classes="m-2"
             myproduct
             onEdit={`/update-product/${p._id}`}

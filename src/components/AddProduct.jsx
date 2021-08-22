@@ -69,9 +69,6 @@ export default function AddProduct({ history, match }) {
       setForm(initialState);
       setPrevImages([]);
     }
-    if (Object.keys(p).length > 0) {
-      console.log('inside', p, user);
-    }
   }, [p, id]);
 
   const productSchema = {
@@ -190,6 +187,8 @@ export default function AddProduct({ history, match }) {
     dispatch(deleteProduct(id, history));
   };
 
+  const { name, offer, price } = form;
+  const img = prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url;
   return (
     <>
       <Popup
@@ -202,13 +201,11 @@ export default function AddProduct({ history, match }) {
         <Col className="d-flex flex-xl-row flex-column align-items-center justify-content-xl-center my-5 fixed">
           <p className="h3 text-center product-preview mb-4">Product preview</p>
           <ProductCard
-            name={form.name}
-            offer={form.offer}
-            price={form.price}
-            img={prevImages?.length > 0 ? prevImages[0] : form.images[0]?.url}
+            product={{ name, offer, price, img }}
             width="260px"
             rating={5}
             count={1}
+            noLink
           />
         </Col>
         <Col className="d-flex flex-column justify-content-center align-items-center pb-4">
