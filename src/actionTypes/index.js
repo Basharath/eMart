@@ -7,6 +7,8 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const RATE_PRODUCT = 'RATE_PRODUCT';
 export const START_LOADING = 'START_LOADING';
 export const STOP_LOADING = 'STOP_LOADING';
+export const PRODUCT_ERROR = 'PRODUCT_ERROR';
+export const RESET_PROD_ERROR = 'RESET_PROD_ERROR';
 
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';

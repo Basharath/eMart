@@ -9,6 +9,8 @@ import {
   RATE_PRODUCT,
   START_LOADING,
   STOP_LOADING,
+  PRODUCT_ERROR,
+  RESET_PROD_ERROR,
 } from '../actionTypes';
 
 export const getProducts = () => async (dispatch) => {
@@ -36,6 +38,8 @@ export const getProduct = (id) => async (dispatch) => {
     const { data } = await api.getProduct(id);
     dispatch({ type: GET_PRODUCT, payload: data });
   } catch (err) {
+    const data = err.response ? err.response.data : 'Something went wrong';
+    dispatch({ type: PRODUCT_ERROR, payload: data });
     console.log(err.message);
   }
 };
@@ -49,7 +53,7 @@ export const addProduct = (product, router) => async (dispatch) => {
     router.push('/products');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
-    dispatch({ type: 'PRODUCT_ERROR', payload: data });
+    dispatch({ type: PRODUCT_ERROR, payload: data });
     dispatch({ type: STOP_LOADING });
   }
 };
@@ -62,7 +66,7 @@ export const updateProduct = (id, product, router) => async (dispatch) => {
     router.push('/products');
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
-    dispatch({ type: 'PRODUCT_ERROR', payload: data });
+    dispatch({ type: PRODUCT_ERROR, payload: data });
     dispatch({ type: STOP_LOADING });
   }
 };
@@ -90,3 +94,5 @@ export const rateProduct = (id, rating) => async (dispatch) => {
     console.log(err.message);
   }
 };
+
+export const resetPrdoError = () => ({ type: RESET_PROD_ERROR });

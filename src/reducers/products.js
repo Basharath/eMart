@@ -8,6 +8,8 @@ import {
   DELETE_PRODUCT,
   START_LOADING,
   STOP_LOADING,
+  PRODUCT_ERROR,
+  RESET_PROD_ERROR,
 } from '../actionTypes';
 
 const productReducer = (
@@ -22,13 +24,13 @@ const productReducer = (
       return { ...state, isLoading: false };
 
     case GET_PRODUCTS:
-      return { ...state, products: action.payload };
+      return { ...state, products: action.payload, error: null };
 
     case GET_VENDOR_PRODS:
-      return { ...state, vendorProds: action.payload };
+      return { ...state, vendorProds: action.payload, error: null };
 
     case GET_PRODUCT:
-      return { ...state, product: action.payload };
+      return { ...state, product: action.payload, error: null };
 
     case ADD_PRODUCT:
       return {
@@ -60,12 +62,14 @@ const productReducer = (
         products: state.products.filter((p) => p._id !== action.payload),
       };
 
-    case 'PRODUCT_ERROR':
+    case PRODUCT_ERROR:
       return {
         ...state,
         error: action.payload,
       };
 
+    case RESET_PROD_ERROR:
+      return { ...state, error: null };
     default:
       return state;
   }
