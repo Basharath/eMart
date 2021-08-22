@@ -149,6 +149,7 @@ export default function Login() {
           <FormGroup
             name="name"
             label="Name"
+            autoFocus
             error={errors.name}
             onChange={handleChange}
             value={form.name}
@@ -162,6 +163,7 @@ export default function Login() {
           name="email"
           label="Email address"
           type="email"
+          autoFocus
           error={errors.email}
           onChange={handleChange}
           value={form.email}
