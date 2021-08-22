@@ -6,13 +6,7 @@ import { Link } from 'react-router-dom';
 import { getRandomRating, getRandomCount } from '../utils';
 
 export default function ProductCard({
-  id,
-  name,
-  price,
-  offer,
-  rating = 0,
-  count = 0,
-  img,
+  product,
   classes,
   width,
   height,
@@ -20,7 +14,12 @@ export default function ProductCard({
   display,
   onEdit,
   onDelete,
+  noLink,
 }) {
+  const { _id: id, name, price, offer, count = 0, images } = product;
+  const img = product.img || (images && images[0]?.url);
+  const rating = Array.isArray(product.rating) ? 0 : product.rating;
+
   const [ratingData, setRatingData] = useState({});
 
   useEffect(() => {
@@ -40,27 +39,48 @@ export default function ProductCard({
       }}
       className={`rounded-3 ${classes} product-card`}
     >
-      <Link
-        to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${id}`}
-        className="product-card-clickable"
-      >
-        <Card.Img
-          variant="top"
-          src={
-            img ||
-            'https://i.postimg.cc/TPcWd5hH/placeholder-images-image-large.png'
-          }
-          style={{
-            width: '100%',
-            height: '170px',
-            objectFit: 'contain',
-          }}
-          className="p-2"
-        />
-        <Card.Body style={{ marginTop: '-10px' }}>
-          <p className="text-truncate text-truncate--2">{name}</p>
-        </Card.Body>
-      </Link>
+      {noLink ? (
+        <>
+          <Card.Img
+            variant="top"
+            src={
+              img ||
+              'https://i.postimg.cc/TPcWd5hH/placeholder-images-image-large.png'
+            }
+            style={{
+              width: '100%',
+              height: '170px',
+              objectFit: 'contain',
+            }}
+            className="p-2"
+          />
+          <Card.Body style={{ marginTop: '-10px' }}>
+            <p className="text-truncate text-truncate--2">{name}</p>
+          </Card.Body>
+        </>
+      ) : (
+        <Link
+          to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${id}`}
+          className="product-card-clickable"
+        >
+          <Card.Img
+            variant="top"
+            src={
+              img ||
+              'https://i.postimg.cc/TPcWd5hH/placeholder-images-image-large.png'
+            }
+            style={{
+              width: '100%',
+              height: '170px',
+              objectFit: 'contain',
+            }}
+            className="p-2"
+          />
+          <Card.Body style={{ marginTop: '-10px' }}>
+            <p className="text-truncate text-truncate--2">{name}</p>
+          </Card.Body>
+        </Link>
+      )}
       <Card.Body style={{ marginTop: '-30px' }}>
         <div style={{ height: '20px', marginTop: '-5px' }}>
           <span className="me-1 fw-bold">${offer}</span>
