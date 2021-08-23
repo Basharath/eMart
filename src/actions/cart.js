@@ -5,7 +5,7 @@ export const getCart = () => async (dispatch) => {
   try {
     const { data } = await api.getCart();
 
-    dispatch({ type: GET_CART, payload: data });
+    dispatch({ type: GET_CART, payload: data.items });
   } catch (err) {
     console.log('Cart err', err.response.data);
   }
@@ -15,7 +15,7 @@ export const updateCart = (item) => async (dispatch) => {
   try {
     const { data } = await api.updateCart(item);
 
-    dispatch({ type: UPDATE_CART, payload: data });
+    dispatch({ type: UPDATE_CART, payload: data.items });
   } catch (err) {
     console.log('Cart err', err.response.data);
   }
