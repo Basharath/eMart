@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import { getProducts } from './actions/products';
 import { getUser, getAuth, logout } from './actions/auth';
 import { getCategories } from './actions/categories';
+import { getCart } from './actions/cart';
 
 import TopBar from './components/TopBar';
 import Login from './components/Login';
@@ -24,6 +25,7 @@ import ProductDetails from './components/ProductDetails';
 const App = () => {
   const dispatch = useDispatch();
   const { authData } = useSelector((state) => state.auth);
+  const cart = useSelector((state) => state.cart);
   const { isLoading } = useSelector((state) => state.products);
   const [user, setUser] = useState(() => getUser());
 
@@ -36,13 +38,14 @@ const App = () => {
 
   useEffect(() => {
     setUser(() => getUser());
+    if (authData) dispatch(getCart());
   }, [authData]);
 
   return (
     <>
       <BrowserRouter>
         <ToastContainer />
-        <TopBar user={user} />
+        <TopBar user={user} cart={cart} />
         {isLoading && <Loader />}
         <Container>
           <Switch>
