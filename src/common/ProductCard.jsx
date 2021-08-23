@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import StarRating from 'react-star-ratings';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { updateCart } from '../actions/cart';
 import { getRandomRating, getRandomCount } from '../utils';
 
 export default function ProductCard({
@@ -21,6 +23,8 @@ export default function ProductCard({
   const rating = Array.isArray(product.rating) ? 0 : product.rating;
 
   const [ratingData, setRatingData] = useState({});
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     setRatingData({
@@ -28,6 +32,12 @@ export default function ProductCard({
       count: getRandomCount(),
     });
   }, []);
+
+  const handleAddToCart = () => {
+    const productData = { product: id, quantity: 1 };
+    dispatch(updateCart(productData));
+    history.push('/cart');
+  };
 
   return (
     <Card
@@ -123,7 +133,12 @@ export default function ProductCard({
           </div>
         )}
         {display && (
-          <Button variant="warning" size="sm" className="mt-3 d-block w-100">
+          <Button
+            onClick={handleAddToCart}
+            variant="warning"
+            size="sm"
+            className="mt-3 d-block w-100"
+          >
             Add to Cart
           </Button>
         )}

@@ -6,6 +6,7 @@ import StarRating from 'react-star-ratings';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct, resetPrdoError } from '../actions/products';
+import { updateCart } from '../actions/cart';
 import { capitalizeFirst } from '../utils';
 
 export default function ProductDetails({ history, match }) {
@@ -51,6 +52,12 @@ export default function ProductDetails({ history, match }) {
     const image = data?.images.filter((i, idx) => idx === +index);
     const imageUrl = image[0]?.url;
     setSelectedImage(() => imageUrl);
+  };
+
+  const handleAddToCart = () => {
+    const productData = { product: id, quantity };
+    dispatch(updateCart(productData));
+    history.push('/cart');
   };
 
   const src = selectedImage || (images && images[0].url);
@@ -137,7 +144,11 @@ export default function ProductDetails({ history, match }) {
             >
               <i className="fas fa-plus" />
             </span>
-            <Button className="ms-4 p-1 px-3" variant="warning">
+            <Button
+              onClick={handleAddToCart}
+              className="ms-4 p-1 px-3"
+              variant="warning"
+            >
               Add to cart
             </Button>
           </div>
