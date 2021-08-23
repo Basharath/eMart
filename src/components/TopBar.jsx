@@ -13,7 +13,7 @@ import NavItem from '../common/NavItem';
 import { logout } from '../actions/auth';
 // import { getCart } from '../api';
 
-export default function TopBar({ user }) {
+export default function TopBar({ user, cart }) {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -49,7 +49,7 @@ export default function TopBar({ user }) {
           </Form>
           <Nav className="mr-2" navbarScroll>
             <NavItem url="/orders" icon="receipt" text="Orders" />
-            <NavItem url="/cart" icon="shopping-cart" text="Cart" />
+            <NavItem url="/cart" icon="shopping-cart" text="Cart" cart={cart} />
             {user ? (
               <NavDropdown
                 title={<span className="text-light">{user.name}</span>}
