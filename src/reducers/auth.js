@@ -4,7 +4,7 @@ const authReducer = (state = { authData: null }, action) => {
   switch (action.type) {
     case AUTH:
       localStorage.setItem('token-emart', JSON.stringify(action.payload.token));
-      return { ...state, authData: action?.payload, error: null };
+      return { ...state, authData: action.payload.token, error: null };
 
     case LOGOUT:
       localStorage.clear();
