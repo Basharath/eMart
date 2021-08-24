@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import CartItemCard from '../common/CartItemCard';
 import { getCart, updateCart } from '../actions/cart';
 import { convertAmount } from '../utils';
@@ -68,6 +69,9 @@ export default function Cart() {
             <span>Total Amount</span>
             <span>{convertAmount(offerPrice)}</span>
           </p>
+        </div>
+        <div className="p-3 border me-4 my-2 cart-col">
+            <Button className="btn-place-order btn w-100">Place order</Button>
         </div>
       </Col>
     </Row>

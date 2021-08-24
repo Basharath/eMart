@@ -260,6 +260,17 @@ html::-webkit-scrollbar-thumb {
   font-weight: 500;
 }
 
+.btn-place-order {
+  background-color: orangered;
+  border: none;
+}
+
+.btn-place-order:hover, 
+.btn-place-order:active,
+.btn-place-order:focus {
+  background-color: hsl(16, 100%, 45%) !important;
+}
+
 @media (max-width: 1200px) {
   .cart-row {
     padding: 15px !important;
