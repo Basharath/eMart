@@ -30,3 +30,13 @@ export const clearCart = () => async (dispatch) => {
     console.log('Cart err', err.response.data);
   }
 };
+
+export const checkoutCart = async (products) => {
+  try {
+    const { data } = await api.checkoutCart(products);
+
+    return data;
+  } catch (err) {
+    console.log('Cart err', err.message);
+  }
+};
