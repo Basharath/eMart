@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { postOrder } from '../actions/orders';
+import { clearCart } from '../actions/cart';
 
 export default function Checkout() {
   const { search } = window.location;
@@ -11,7 +12,7 @@ export default function Checkout() {
   const sessionId = params.get('session_id');
 
   const dispatch = useDispatch();
-  const { order } = useSelector((state) => state.orders);
+  const { recentOrder, error } = useSelector((state) => state.orders);
   const history = useHistory();
 
   useEffect(() => {
@@ -20,18 +21,20 @@ export default function Checkout() {
     }
   }, []);
 
+  useEffect(() => {
+    if (recentOrder) dispatch(clearCart());
+  }, [recentOrder]);
+
   const handleGoToOrder = () => {
-    history.push(`/orders/61267a8671c65261b46ed532`);
-    // history.push(`/orders/${order._id}`);
+    history.push(`/order/${recentOrder._id}`);
   };
 
-  console.log('order', order);
   return (
     <div
       className="fs-2 text-secondary d-flex flex-column align-items-center justify-content-center"
       style={{ height: '60vh' }}
     >
-      {status === 'true' && order ? (
+      {status === 'true' && recentOrder && (
         <>
           <svg
             className="checkmark"
@@ -54,11 +57,21 @@ export default function Checkout() {
           <p>Your order is successful</p>
           <Button onClick={handleGoToOrder}>Go to order</Button>
         </>
-      ) : (
-        <p>
-          Your order is <strong>not</strong> placed, please try again.
-        </p>
       )}
+      {status === 'false' &&
+        !recentOrder(
+          <p>
+            Your order is <strong>not</strong> placed, please try again.
+          </p>
+        )}
+      {error ||
+        (status === 'true' && !recentOrder && (
+          <p>
+            {error
+              ? 'Something is not correct'
+              : 'Your order is getting processed...'}
+          </p>
+        ))}
     </div>
   );
 }
