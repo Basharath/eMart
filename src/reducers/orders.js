@@ -1,15 +1,33 @@
-import { GET_ORDERS, POST_ORDER, CANCEL_ORDER } from '../actionTypes';
+import {
+  GET_ORDERS,
+  GET_ORDER,
+  POST_ORDER,
+  CANCEL_ORDER,
+  ORDER_ERROR,
+} from '../actionTypes';
 
-const ordersReducer = (state = [], action) => {
+const ordersReducer = (
+  state = { orders: [], order: null, recentOrder: null, error: null },
+  action
+) => {
   switch (action.type) {
     case GET_ORDERS:
-      return [...state, action.payload];
+      return { ...state, orders: action.payload, error: null };
+
+    case GET_ORDER:
+      return { ...state, order: action.payload, error: null };
 
     case POST_ORDER:
-      return [...state, action.payload];
+      return { ...state, recentOrder: action.payload, error: null };
 
     case CANCEL_ORDER:
-      return [...state.filter((o) => o._id !== action.payload._id)];
+      return {
+        ...state,
+        orders: state.orders.filter((o) => o._id !== action.payload._id),
+      };
+
+    case ORDER_ERROR:
+      return { ...state, error: action.payload };
 
     default:
       return state;
