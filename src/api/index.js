@@ -43,12 +43,16 @@ export const rateProduct = (id, rating) =>
   API.patch(`${productsUrl}/${id}`, rating);
 
 export const getOrders = () => API.get(ordersUrl);
-export const postOrder = (newOrder) => API.post(ordersUrl, newOrder);
-export const cancelOrder = (id) => API.delete(`${ordersUrl}?id=${id}`);
+export const getOrder = (orderId) => API.get(`${ordersUrl}/${orderId}`);
+export const postOrder = (sessionId) =>
+  API.post(`${ordersUrl}?session_id=${sessionId}`);
+export const cancelOrder = (id) => API.delete(`${ordersUrl}/${id}`);
 
 export const getCart = () => API.get(cartUrl);
 export const updateCart = (newItem) => API.post(cartUrl, newItem);
 export const clearCart = () => API.delete(cartUrl);
+export const checkoutCart = (products) =>
+  API.post(`${cartUrl}/checkout`, products);
 
 export const getCategories = () => API.get(categoriesUrl);
 export const addCategory = (newCategory) =>
