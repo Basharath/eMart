@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import CartItemCard from '../common/CartItemCard';
-import { getCart, updateCart } from '../actions/cart';
+import { getCart, updateCart, checkoutCart } from '../actions/cart';
 import { convertAmount } from '../utils';
 
 export default function Cart() {
@@ -25,17 +25,26 @@ export default function Cart() {
     dispatch(updateCart(productData));
   };
 
+  const handleCheckout = async () => {
+    const products = cart?.map((i) => ({
+      name: i.product.name,
+      price: i.price,
+      quantity: i.quantity,
+    }));
+    const url = await checkoutCart(products);
+    window.location = url;
+  };
+
   const fullPrice = cart.reduce((t, i) => t + i.product.price * i.quantity, 0);
   const offerPrice = cart.reduce((t, i) => t + i.price * i.quantity, 0);
   const discount = fullPrice - offerPrice;
 
-  return (
+  return cart.length > 0 ? (
     <Row className="mt-2 d-flex justify-content-center align-items-start px-5 py-2 cart-row">
       <Col xl={8}>
         <p className="p-1 ps-2 me-4 my-2 border cart-col fw-bold fz-1 text-center text-secondary">
           My Cart ({cart?.length})
         </p>
-        {cart.length < 1 && <p>Your cart is empty, try adding products.</p>}
         {cart &&
           cart.map((i) => (
             <CartItemCard
@@ -71,9 +80,18 @@ export default function Cart() {
           </p>
         </div>
         <div className="p-3 border me-4 my-2 cart-col">
-            <Button className="btn-place-order btn w-100">Place order</Button>
+          <Button
+            className="btn-place-order btn w-100"
+            onClick={handleCheckout}
+          >
+            Place order
+          </Button>
         </div>
       </Col>
     </Row>
+  ) : (
+    <p className="text-center mt-5 fs-2 text-secondary fw-light">
+      Your cart is empty
+    </p>
   );
 }
