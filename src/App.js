@@ -21,6 +21,8 @@ import MyProducts from './components/MyProducts';
 import AddProduct from './components/AddProduct';
 import Loader from './common/Loader';
 import ProductDetails from './components/ProductDetails';
+import Checkout from './components/Checkout';
+import NotFound from './components/NotFound';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -54,13 +56,16 @@ const App = () => {
               render={() => (!user ? <Login /> : <Redirect to="/" />)}
             />
             <Route path="/:slug/p/:id" component={ProductDetails} />
+            <ProtectedRoute path="/order/:id" component={Orders} user={user} />
             <ProtectedRoute path="/orders" component={Orders} user={user} />
             <ProtectedRoute path="/cart" component={Cart} user={user} />
             <VendorRoute path="/add-product" component={AddProduct} />
             <VendorRoute path="/update-product/:id" component={AddProduct} />
             <VendorRoute path="/products" component={MyProducts} />
+            <Route path="/checkout" exact component={Checkout} />
             <Route path="/" exact component={Products} />
-            <Redirect to="/" />
+            <Route path="/not-found" component={NotFound} />
+            <Redirect to="/not-found" />
           </Switch>
         </Container>
       </BrowserRouter>
