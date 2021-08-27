@@ -4,13 +4,17 @@ import {
   POST_ORDER,
   CANCEL_ORDER,
   ORDER_ERROR,
+  START_LOADING,
+  STOP_LOADING,
 } from '../actionTypes';
 import * as api from '../api';
 
 export const getOrders = () => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.getOrders();
     dispatch({ type: GET_ORDERS, payload: data });
+    dispatch({ type: STOP_LOADING });
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: ORDER_ERROR, payload: data });
@@ -20,8 +24,10 @@ export const getOrders = () => async (dispatch) => {
 
 export const getOrder = (orderId) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.getOrder(orderId);
     dispatch({ type: GET_ORDER, payload: data });
+    dispatch({ type: STOP_LOADING });
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: ORDER_ERROR, payload: data });
