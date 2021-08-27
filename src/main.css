@@ -279,7 +279,8 @@ html::-webkit-scrollbar-thumb {
   background-color: hsl(16, 100%, 45%) !important;
 }
 
-.order-card {
+.order-card,
+.orders-screen {
   width: 100%;
   padding-bottom: 0;
 }
@@ -287,6 +288,12 @@ html::-webkit-scrollbar-thumb {
 .order-item-card:last-child {
   border: none !important;
   margin-bottom: 0 !important;
+}
+
+.order-image-block {
+  width: 120px;
+  height: 80px;
+  min-width: 120px;
 }
 
 @media (max-width: 1200px) {
@@ -335,6 +342,10 @@ html::-webkit-scrollbar-thumb {
 
   .order-block {
     padding: 5px !important;
+  }
+  .orders-block {
+    padding: 5px 15px !important;
+    width: 100%;
   }
 
   .order-card-body {
@@ -408,7 +419,8 @@ html::-webkit-scrollbar-thumb {
     outline: 1px solid #eee;
   }
 
-  .order-card {
+  .order-card,
+  .orders-screen {
     width: 800px;
   }
 }
