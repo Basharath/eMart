@@ -23,6 +23,7 @@ import Loader from './common/Loader';
 import ProductDetails from './components/ProductDetails';
 import Checkout from './components/Checkout';
 import NotFound from './components/NotFound';
+import OrderDetails from './components/OrderDetails';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -56,8 +57,8 @@ const App = () => {
               render={() => (!user ? <Login /> : <Redirect to="/" />)}
             />
             <Route path="/:slug/p/:id" component={ProductDetails} />
-            <ProtectedRoute path="/order/:id" component={Orders} user={user} />
-            <ProtectedRoute path="/orders" component={Orders} user={user} />
+            <ProtectedRoute path="/order/:id" component={OrderDetails} />
+            <ProtectedRoute path="/orders" component={Orders} />
             <ProtectedRoute path="/cart" component={Cart} user={user} />
             <VendorRoute path="/add-product" component={AddProduct} />
             <VendorRoute path="/update-product/:id" component={AddProduct} />
