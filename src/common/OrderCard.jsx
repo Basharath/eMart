@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Card from 'react-bootstrap/Card';
 import { convertAmount } from '../utils';
@@ -6,7 +6,7 @@ import { convertAmount } from '../utils';
 export default function OrderCard({ order }) {
   const { date, products, _id } = order || {};
   const getDate = (d) => dayjs(d).format('DD MMMM YYYY');
-  const getTotal = products.reduce((t, c) => t + c.quantity * c.price, 0);
+  const getTotal = products?.reduce((t, c) => t + c.quantity * c.price, 0);
 
   return (
     <div className="">
@@ -39,7 +39,7 @@ export default function OrderCard({ order }) {
 
 const OrderItemCard = ({ p }) => {
   const { price, quantity, product } = p;
-  const { name } = product;
+  const { name, _id: id } = product;
   const img = product.images[0].url;
 
   return (
@@ -53,7 +53,12 @@ const OrderItemCard = ({ p }) => {
         />
       </div>
       <div className="px-3 pt-1 order-block">
-        <p className="truncate--2 mb-0">{name}</p>
+        <Link
+          to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${id}`}
+          className="product-card-clickable"
+        >
+          <p className="truncate--2 mb-0">{name}</p>
+        </Link>
         <span className="me-2">{convertAmount(price)}</span>
         <span className="">Qty: {quantity}</span>
       </div>
