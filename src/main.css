@@ -252,6 +252,14 @@ html::-webkit-scrollbar-thumb {
   font-size: 18px;
 }
 
+.fz-2 {
+  font-size: 13px;
+}
+
+.fz-3 {
+  font-size: 14px;
+}
+
 .total-amount {
   border-top: 1px dashed #777;
   border-bottom: 1px dashed #777;
@@ -269,6 +277,16 @@ html::-webkit-scrollbar-thumb {
 .btn-place-order:active,
 .btn-place-order:focus {
   background-color: hsl(16, 100%, 45%) !important;
+}
+
+.order-card {
+  width: 100%;
+  padding-bottom: 0;
+}
+
+.order-item-card:last-child {
+  border: none !important;
+  margin-bottom: 0 !important;
 }
 
 @media (max-width: 1200px) {
@@ -314,6 +332,14 @@ html::-webkit-scrollbar-thumb {
   .cart-image-container {
     padding: 5px 0 !important;
   }
+
+  .order-block {
+    padding: 5px !important;
+  }
+
+  .order-card-body {
+    padding: 10px !important;
+  }
 }
 
 @media (max-width: 540px) {
@@ -342,6 +368,10 @@ html::-webkit-scrollbar-thumb {
   .product-detail-mini {
     width: 90px !important;
     height: 70px !important;
+  }
+
+  .order-date {
+    margin-right: 10px !important;
   }
 }
 @media (min-width: 1024px) {
@@ -378,11 +408,12 @@ html::-webkit-scrollbar-thumb {
     outline: 1px solid #eee;
   }
 
-  /* .qty-select {
-    margin: 5px 10px !important;
-  } */
+  .order-card {
+    width: 800px;
+  }
 }
 
+/* --------------------------------------------------------- */
 /* svg animation */
 .checkmark {
   width: 56px;
