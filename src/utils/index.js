@@ -5,7 +5,9 @@ export const getRandomCount = (m = 1, n = 50) =>
 
 export const capitalizeFirst = (s) => s[0].toUpperCase() + s.slice(1);
 
-export const convertAmount = (amount) =>
-  amount
+export const convertAmount = (amount) => {
+  const rounded = Math.round(amount);
+  return rounded
     .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
     .slice(0, -3);
+};
