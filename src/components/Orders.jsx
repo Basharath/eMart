@@ -21,8 +21,10 @@ export default function Orders() {
     <>
       {orders.length ? (
         <div className="orders-screen mx-auto mb-5">
-          <p className="text-secondary fs-2 text-center mt-2">Your orders</p>
-          <Card className="mt-4">
+          <p className="text-secondary fs-2 text-center mt-3 mb-0">
+            Your orders
+          </p>
+          <Card className="mt-3">
             {orders?.map((o) => (
               <OrderItemCard key={o._id} o={o} />
             ))}
@@ -66,13 +68,13 @@ const OrderItemCard = ({ o }) => {
       />
       <p className="p-2 bg-light d-flex justify-content-between">
         <span>Ordered on: {dayjs(date).format('DD MMM YYYY')}</span>
-        <span>
+        <span className="text-end">
           {dayjs(new Date()) < dayjs(deliveryDate)
             ? `Delivery on: ${dayjs(deliveryDate).format('DD MMM YYYY')}`
             : `Delivered on: ${dayjs(deliveryDate).format('DD MMM YYYY')}`}
         </span>
       </p>
-      <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom pb-4 pt-2 fz-3">
+      <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom pb-2 pt-2 fz-3">
         <div className="d-flex ps-3 align-self-center order-image-block">
           {images.map((i, idx) => (
             <img
@@ -89,17 +91,24 @@ const OrderItemCard = ({ o }) => {
             />
           ))}
         </div>
-        <div className="px-3 pt-1 orders-block">
+        <div className="px-3 pt-1 orders-block w-100">
           <Link to={`/order/${id}`} className="product-card-clickable">
             <p className="truncate--2 mb-0">{name}</p>{' '}
             <span className="text-primary">
               {count > 1 ? `+${count - 1} item(s)` : ''}
             </span>
           </Link>
-          <span className="me-5 d-block">Total: {convertAmount(total)}</span>
-          <div className="align-middle mt-2">
+          <div className="align-middle mt-2 d-md-flex justify-content-md-between">
+            <span className="mb-2 me-4 order-amount">
+              Total: {convertAmount(total)}
+            </span>
             {dayjs(new Date()) < dayjs(deliveryDate) && (
-              <Button variant="danger" size="sm" onClick={() => setShow(true)}>
+              <Button
+                variant="danger"
+                size="sm"
+                className="btn-cancel-order"
+                onClick={() => setShow(true)}
+              >
                 Cancel Order
               </Button>
             )}

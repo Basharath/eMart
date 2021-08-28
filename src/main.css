@@ -403,6 +403,11 @@ html::-webkit-scrollbar-thumb {
   .btn-product-limit {
     width: 100%;
   }
+  .btn-cancel-order,
+  .order-amount {
+    display: block;
+    width: 100%;
+  }
 }
 
 @media (max-width: 410px) {

@@ -24,7 +24,7 @@ export default function OrderDetails() {
 
   return (
     <div>
-      <p className="text-secondary fs-2 text-center mt-2">Order details</p>
+      <p className="text-secondary fs-2 text-center mt-3 mb-0">Order details</p>
       {id && !error && orderData && (
         <div className="mt-4 d-flex justify-content-center">
           <OrderCard order={orderData} />

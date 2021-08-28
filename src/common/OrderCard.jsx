@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { convertAmount } from '../utils';
 
 export default function OrderCard({ order }) {
-  const { date, products, _id } = order || {};
+  const { date, deliveryDate, products } = order || {};
   const getDate = (d) => dayjs(d).format('DD MMMM YYYY');
   const getTotal = products?.reduce((t, c) => t + c.quantity * c.price, 0);
 
@@ -12,7 +12,7 @@ export default function OrderCard({ order }) {
     <div className="">
       <Card className="rounded-3 order-card">
         <Card.Header className="fz-2 d-flex justify-content-between flex-column flex-md-row">
-          <div className="d-flex justify-content-between justify-content-md-start">
+          <div className="d-flex justify-content-between w-100">
             <div className="me-5 order-date">
               ORDER PLACED <br />
               {getDate(date)}
@@ -23,11 +23,16 @@ export default function OrderCard({ order }) {
               {convertAmount(getTotal)}
             </div>
           </div>
-          <div>
+          {/* <div>
             ORDER <br />#{_id}
-          </div>
+          </div> */}
         </Card.Header>
         <Card.Body className="order-card-body">
+          <p className="fw-bold">
+            {dayjs(new Date()) < dayjs(deliveryDate)
+              ? `Delivery on: ${dayjs(deliveryDate).format('DD MMM YYYY')}`
+              : `Delivered on: ${dayjs(deliveryDate).format('DD MMM YYYY')}`}
+          </p>
           {products.map((p) => (
             <OrderItemCard p={p} key={p.product._id} />
           ))}
