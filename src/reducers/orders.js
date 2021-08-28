@@ -4,6 +4,7 @@ import {
   POST_ORDER,
   CANCEL_ORDER,
   ORDER_ERROR,
+  RESET_ORDERS,
 } from '../actionTypes';
 
 const ordersReducer = (
@@ -28,6 +29,9 @@ const ordersReducer = (
 
     case ORDER_ERROR:
       return { ...state, error: action.payload };
+
+    case RESET_ORDERS:
+      return { orders: [], order: null, recentOrder: null, error: null };
 
     default:
       return state;

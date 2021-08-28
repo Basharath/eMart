@@ -23,6 +23,7 @@ export const GET_ORDER = 'GET_ORDER';
 export const POST_ORDER = 'POST_ORDER';
 export const CANCEL_ORDER = 'CANCEL_ORDER';
 export const ORDER_ERROR = 'ORDER_ERROR';
+export const RESET_ORDERS = 'RESET_ORDERS';
 
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_CATEGORY = 'ADD_CATEGORY';
