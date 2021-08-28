@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { convertAmount } from '../utils';
 
 export default function CartItemCard({ p, onRemove, onSelection }) {
   const { price, quantity, product } = p;
@@ -30,7 +31,7 @@ export default function CartItemCard({ p, onRemove, onSelection }) {
           {seller}
         </p>
         <p className="me-1 fw-bold" style={{ fontSize: '18px' }}>
-          ${price}
+          {convertAmount(price)}
         </p>
         <p className="d-flex align-items-center">
           <span className="">Qty:</span>
