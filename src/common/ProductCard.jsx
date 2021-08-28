@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import StarRating from 'react-star-ratings';
 import { Link, useHistory } from 'react-router-dom';
 import { updateCart } from '../actions/cart';
-import { getRandomRating, getRandomCount } from '../utils';
+import { getRandomRating, getRandomCount, convertAmount } from '../utils';
 
 export default function ProductCard({
   product,
@@ -93,13 +93,15 @@ export default function ProductCard({
       )}
       <Card.Body style={{ marginTop: '-30px' }}>
         <div style={{ height: '20px', marginTop: '-5px' }}>
-          <span className="me-1 fw-bold">${offer}</span>
+          <span className="me-1 fw-bold">
+            {noLink ? `$${offer}` : convertAmount(offer)}
+          </span>
           {price && (
             <span
               className="fw-lighter text-decoration-line-through"
               style={{ fontSize: '15px' }}
             >
-              ${price}
+              {noLink ? `$${price}` : convertAmount(price)}
             </span>
           )}
           {price && offer && (

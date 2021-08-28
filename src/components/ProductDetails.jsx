@@ -5,9 +5,9 @@ import Card from 'react-bootstrap/Card';
 import StarRating from 'react-star-ratings';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct, resetPrdoError } from '../actions/products';
+import { getProduct, resetProdError } from '../actions/products';
 import { updateCart } from '../actions/cart';
-import { capitalizeFirst } from '../utils';
+import { capitalizeFirst, convertAmount } from '../utils';
 
 export default function ProductDetails({ history, match }) {
   const { id } = match.params;
@@ -27,7 +27,7 @@ export default function ProductDetails({ history, match }) {
 
   useEffect(() => {
     if (error) {
-      dispatch(resetPrdoError());
+      dispatch(resetProdError());
       history.push('/');
     }
   }, [error]);
@@ -92,7 +92,7 @@ export default function ProductDetails({ history, match }) {
           </div>
         </Col>
         <Col lg={6} className="px-4">
-          <h4>{name}</h4>
+          <h5 style={{ fontSize: '22px' }}>{name}</h5>
           <div className="my-2">
             <StarRating
               rating={4.3}
@@ -103,13 +103,15 @@ export default function ProductDetails({ history, match }) {
             <span className="starCount">(32)</span>
           </div>
           <div className="my-2">
-            <span className="me-2 fw-bold fs-4 align-middle">${offer}</span>
+            <span className="me-2 fw-bold fs-4 align-middle">
+              {convertAmount(offer)}
+            </span>
             {price && (
               <span
                 className="text-decoration-line-through text-secondary fs-5 align-middle"
                 // style={{ fontSize: '15px' }}
               >
-                ${price}
+                {convertAmount(price)}
               </span>
             )}
             {price && offer && (
@@ -153,9 +155,9 @@ export default function ProductDetails({ history, match }) {
             </Button>
           </div>
 
-          <h4 className="my-2 text-secondary">
+          <h5 className="mb-2 mt-4 text-secondary" style={{ fontSize: '21px' }}>
             Product details & specifications
-          </h4>
+          </h5>
           <div className="list-item mb-4" style={{ whiteSpace: 'pre-wrap' }}>
             {description?.split('\n').map((l, idx) => (
               <li key={idx}>{l}</li>
