@@ -2,12 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import GoogleLogin from 'react-google-login';
 import Joi from 'joi-browser';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { login, signup } from '../actions/auth';
 import FormGroup from '../common/FormGroup';
-import { AUTH_ERROR } from '../actionTypes/index';
+import { AUTH_ERROR, AUTH } from '../actionTypes/index';
 
 const initialState = { name: '', email: '', password: '', confirmPassword: '' };
 export default function Login() {
@@ -123,6 +125,14 @@ export default function Login() {
     );
   };
 
+  const handleGoogleSuccess = (res) => {
+    // const result = res?.profileObj;
+    const token = res?.tokenId;
+    dispatch({ type: AUTH, payload: { token } });
+  };
+
+  const handleGoogleFailure = () => toast.error('Google login is unsuccessful');
+
   return (
     <div
       className={`d-flex flex-column justify-content-center align-items-center ${
@@ -130,7 +140,7 @@ export default function Login() {
       }`}
       style={{}}
     >
-      <Form className="shadow rounded p-4" style={{ width: '350px' }}>
+      <Form className="shadow rounded p-4 login-form">
         {isVendor && (
           <div className="text-center">
             <div className="text-danger text-center">
@@ -202,6 +212,16 @@ export default function Login() {
             isVendor ? 'Sign up as a seller' : isLogin ? 'Login' : 'Sign up'
           }
         </Button>
+        {isLogin && (
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="Login/Signup with Google"
+            onSuccess={handleGoogleSuccess}
+            onFailure={handleGoogleFailure}
+            cookiePolicy="single_host_origin"
+            className="w-100 mt-2 text-center text-dark google-btn"
+          />
+        )}
         <Button
           onClick={switchMode}
           className="mt-3 w-100 no-focus"

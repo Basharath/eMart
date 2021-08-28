@@ -300,6 +300,22 @@ html::-webkit-scrollbar-thumb {
   min-width: 120px;
 }
 
+.google-btn {
+  padding-left: 36px !important;
+  /* box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1) !important; */
+  box-shadow: none !important;
+  border: 1px solid #ddd !important;
+  border-radius: 5px !important;
+}
+
+.google-btn:hover {
+  border: 1px solid #ccc !important;
+}
+
+.login-form {
+  width: 350px !important;
+}
+
 @media (max-width: 1200px) {
   .cart-row {
     padding: 15px !important;
@@ -390,6 +406,9 @@ html::-webkit-scrollbar-thumb {
 
   .order-date {
     margin-right: 10px !important;
+  }
+  .login-form {
+    width: 320px !important;
   }
 }
 @media (min-width: 1024px) {
