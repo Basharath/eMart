@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import Container from 'react-bootstrap/Container';
 import { getProducts } from './actions/products';
 import { getUser, getAuth, logout } from './actions/auth';
 import { getCategories } from './actions/categories';
@@ -12,11 +12,9 @@ import TopBar from './components/TopBar';
 import Login from './components/Login';
 import Orders from './components/Orders';
 import Cart from './components/Cart';
-// import Home from './components/Home';
-import Products from './components/Products';
+import Home from './components/Home';
 import ProtectedRoute from './common/ProtectedRoute';
 import VendorRoute from './common/ProtectedRouteVendor';
-import 'react-toastify/dist/ReactToastify.css';
 import MyProducts from './components/MyProducts';
 import AddProduct from './components/AddProduct';
 import Loader from './common/Loader';
@@ -24,6 +22,8 @@ import ProductDetails from './components/ProductDetails';
 import Checkout from './components/Checkout';
 import NotFound from './components/NotFound';
 import OrderDetails from './components/OrderDetails';
+import Banners from './components/Banners';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,6 +31,7 @@ const App = () => {
   const cart = useSelector((state) => state.cart);
   const { isLoading } = useSelector((state) => state.products);
   const [user, setUser] = useState(() => getUser());
+  const location = useLocation();
 
   useEffect(() => {
     if (!getUser()) dispatch(logout());
@@ -46,30 +47,29 @@ const App = () => {
 
   return (
     <>
-      <BrowserRouter>
-        <ToastContainer />
-        <TopBar user={user} cart={cart} />
-        {isLoading && <Loader />}
-        <Container>
-          <Switch>
-            <Route
-              path="/login"
-              render={() => (!user ? <Login /> : <Redirect to="/" />)}
-            />
-            <Route path="/:slug/p/:id" component={ProductDetails} />
-            <ProtectedRoute path="/order/:id" component={OrderDetails} />
-            <ProtectedRoute path="/orders" component={Orders} />
-            <ProtectedRoute path="/cart" component={Cart} user={user} />
-            <VendorRoute path="/add-product" component={AddProduct} />
-            <VendorRoute path="/update-product/:id" component={AddProduct} />
-            <VendorRoute path="/products" component={MyProducts} />
-            <Route path="/checkout" exact component={Checkout} />
-            <Route path="/" exact component={Products} />
-            <Route path="/not-found" component={NotFound} />
-            <Redirect to="/not-found" />
-          </Switch>
-        </Container>
-      </BrowserRouter>
+      <ToastContainer />
+      <TopBar user={user} cart={cart} />
+      {isLoading && <Loader />}
+      {location.pathname === '/' && <Banners />}
+      <Container>
+        <Switch>
+          <Route
+            path="/login"
+            render={() => (!user ? <Login /> : <Redirect to="/" />)}
+          />
+          <Route path="/:slug/p/:id" component={ProductDetails} />
+          <ProtectedRoute path="/order/:id" component={OrderDetails} />
+          <ProtectedRoute path="/orders" component={Orders} />
+          <ProtectedRoute path="/cart" component={Cart} user={user} />
+          <VendorRoute path="/add-product" component={AddProduct} />
+          <VendorRoute path="/update-product/:id" component={AddProduct} />
+          <VendorRoute path="/products" component={MyProducts} />
+          <Route path="/checkout" exact component={Checkout} />
+          <Route path="/" exact component={Home} />
+          <Route path="/not-found" component={NotFound} />
+          <Redirect to="/not-found" />
+        </Switch>
+      </Container>
     </>
   );
 };

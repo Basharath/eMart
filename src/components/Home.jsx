@@ -1,5 +1,11 @@
-import React from 'react';
+// import Banners from './Banners';
+import Products from './Products';
 
 export default function Home() {
- return <div>Home</div>;
+  return (
+    <>
+      {/* <Banners /> */}
+      <Products />
+    </>
+  );
 }
