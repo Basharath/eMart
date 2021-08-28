@@ -18,7 +18,7 @@ export default function MyProducts() {
   const productLimit = products.length >= LIMIT;
 
   useEffect(() => {
-    dispatch(getVendorProducts(isAdmin ? '' : id));
+    if (!products.length) dispatch(getVendorProducts(isAdmin ? '' : id));
   }, []);
 
   const handleSetData = (status, prodId) => {

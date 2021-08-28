@@ -13,7 +13,7 @@ export default function Cart() {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    dispatch(getCart());
+    if (!cart.length) dispatch(getCart());
   }, []);
 
   const handleRemoveItem = (id) => {

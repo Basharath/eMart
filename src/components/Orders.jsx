@@ -14,7 +14,7 @@ export default function Orders() {
   const { orders, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    dispatch(getOrders());
+    if (!orders.length) dispatch(getOrders());
   }, []);
 
   return (
