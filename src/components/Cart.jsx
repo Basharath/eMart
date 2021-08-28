@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import CartItemCard from '../common/CartItemCard';
 import { getCart, updateCart, checkoutCart } from '../actions/cart';
 import { convertAmount } from '../utils';
+import NotFound from './NotFound';
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -90,8 +91,9 @@ export default function Cart() {
       </Col>
     </Row>
   ) : (
-    <p className="text-center mt-5 fs-2 text-secondary fw-light">
-      Your cart is empty
-    </p>
+    // <p className="text-center mt-5 fs-2 text-secondary fw-light">
+    //   Your cart is empty
+    // </p>
+    <NotFound text="Your cart is empty" />
   );
 }

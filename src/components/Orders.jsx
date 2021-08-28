@@ -18,13 +18,21 @@ export default function Orders() {
   }, []);
 
   return (
-    <div className="orders-screen mx-auto">
-      <p className="text-secondary fs-2 text-center mt-2">Your orders</p>
-      <Card className="mt-4">
-        {orders && orders?.map((o) => <OrderItemCard key={o._id} o={o} />)}
-      </Card>
-      {error && <NotFound type="order" />}
-    </div>
+    <>
+      {orders.length ? (
+        <div className="orders-screen mx-auto mb-5">
+          <p className="text-secondary fs-2 text-center mt-2">Your orders</p>
+          <Card className="mt-4">
+            {orders?.map((o) => (
+              <OrderItemCard key={o._id} o={o} />
+            ))}
+          </Card>
+        </div>
+      ) : (
+        <NotFound type="orders" />
+      )}
+      {error && <NotFound text="Something seems to went wrong!" />}
+    </>
   );
 }
 
