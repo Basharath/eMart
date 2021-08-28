@@ -15,6 +15,7 @@ import {
   updateProduct,
   getProduct,
   deleteProduct,
+  resetProdError,
 } from '../actions/products';
 import Popup from '../common/Popup';
 import { getUser } from '../actions/auth';
@@ -178,6 +179,12 @@ export default function AddProduct({ history, match }) {
     );
     setPrevImages(() => previewImages);
     setForm((prev) => ({ ...prev, formDataImages, images }));
+  };
+
+  const handleGoBack = () => {
+    history.goBack();
+    dispatch(resetProdError());
+    setErrors({});
   };
 
   const handleClose = () => setShow(false);
@@ -357,7 +364,7 @@ export default function AddProduct({ history, match }) {
             )}
             <Button
               variant="secondary"
-              onClick={() => history.goBack()}
+              onClick={handleGoBack}
               className="w-100 mt-1"
             >
               {id ? 'Cancel updating' : 'Go back'}
