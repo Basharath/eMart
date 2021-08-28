@@ -316,6 +316,14 @@ html::-webkit-scrollbar-thumb {
   width: 350px !important;
 }
 
+.banner-image {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+}
+
 @media (max-width: 1200px) {
   .cart-row {
     padding: 15px !important;
@@ -370,6 +378,10 @@ html::-webkit-scrollbar-thumb {
 
   .order-card-body {
     padding: 10px !important;
+  }
+  .banner-image {
+    width: auto;
+    height: 150px;
   }
 }
 
