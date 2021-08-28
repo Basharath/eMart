@@ -26,8 +26,10 @@ export const getProducts = () => async (dispatch) => {
 
 export const getVendorProducts = (id) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.getProducts(id);
     dispatch({ type: GET_VENDOR_PRODS, payload: data });
+    dispatch({ type: STOP_LOADING });
   } catch (err) {
     console.log('Error', err.message);
   }
@@ -35,8 +37,10 @@ export const getVendorProducts = (id) => async (dispatch) => {
 
 export const getProduct = (id) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.getProduct(id);
     dispatch({ type: GET_PRODUCT, payload: data });
+    dispatch({ type: STOP_LOADING });
   } catch (err) {
     const data = err.response ? err.response.data : 'Something went wrong';
     dispatch({ type: PRODUCT_ERROR, payload: data });
@@ -95,4 +99,4 @@ export const rateProduct = (id, rating) => async (dispatch) => {
   }
 };
 
-export const resetPrdoError = () => ({ type: RESET_PROD_ERROR });
+export const resetProdError = () => ({ type: RESET_PROD_ERROR });

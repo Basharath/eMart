@@ -70,6 +70,7 @@ const productReducer = (
 
     case RESET_PROD_ERROR:
       return { ...state, error: null };
+
     default:
       return state;
   }
