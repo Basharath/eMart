@@ -47,13 +47,16 @@ export default function MyProducts() {
         </Alert>
       )}
       {!isAdmin && productLimit ? (
-        <Button className="btn btn-warning d-block mx-auto w-25" disabled>
+        <Button
+          className="btn btn-warning mx-auto d-block btn-sm btn-product-limit"
+          disabled
+        >
           Your product limit of {LIMIT} reached!
         </Button>
       ) : (
         <Link
           to="/add-product"
-          className="btn btn-warning d-block mx-auto w-25 add-product"
+          className="btn btn-warning mx-auto d-block btn-sm btn-product-limit"
         >
           Add product
         </Link>

@@ -122,6 +122,10 @@ input[type='number'] {
   font-size: 2rem;
 }
 
+.btn-product-limit {
+  width: 450px;
+}
+
 .loader {
   position: fixed;
   display: flex;
@@ -367,6 +371,9 @@ html::-webkit-scrollbar-thumb {
   .cart-image {
     width: 120px;
     height: 120px;
+  }
+  .btn-product-limit {
+    width: 100%;
   }
 }
 
