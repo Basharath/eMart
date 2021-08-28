@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
@@ -6,32 +7,28 @@ import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-// import { Link } from 'react-router-dom';
 import NavDropdownItem from '../common/NavDropdownItem';
 import logo from '../images/Logo.png';
 import NavItem from '../common/NavItem';
 import { logout } from '../actions/auth';
-// import { getCart } from '../api';
+import { CLEAR_CART, RESET_ORDERS } from '../actionTypes/index';
 
 export default function TopBar({ user, cart }) {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch({ type: CLEAR_CART });
+    dispatch({ type: RESET_ORDERS });
   };
-
-  // const handleCart = async () => {
-  //   const { data } = await getCart();
-  //   console.log('cart', data);
-  // };
 
   return (
     <Navbar bg="primary" expand="lg" variant="dark" sticky="top">
       <Container>
-        <Navbar.Brand href="/" className="fs-2">
+        <Link to="/" className="fs-2 d-flex align-items-center">
           <img src={logo} style={{ height: '40px' }} alt="emart-log" />
           {/* eMart */}
-        </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="navbarScroll" className="no-focus" />
         <Navbar.Collapse id="navbarScroll" className="">
           <Form className="mx-auto w-50 search-mobile">
