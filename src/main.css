@@ -17,8 +17,8 @@ button:active:focus {
 .no-border:focus,
 .no-focus:focus,
 .no-focus:active:focus {
-  outline: none;
-  box-shadow: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -39,6 +39,23 @@ input[type='number'] {
 
 .dropdown .dropdown-menu {
   margin-top: 0;
+}
+
+/* .sort-dropdown {
+  display: inline;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding-right: 0;
+} */
+
+.sort-dropdown .dropdown-toggle.nav-link {
+  color: #212529 !important;
+}
+
+.sort-dropdown .dropdown-menu {
+  margin-top: -5px !important;
 }
 
 .reset {
