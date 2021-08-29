@@ -45,6 +45,9 @@ const productReducer = (
         products: state.products.map((p) =>
           p._id === action.payload._id ? action.payload : p
         ),
+        vendorProds: state.vendorProds.map((p) =>
+          p._id === action.payload._id ? action.payload : p
+        ),
         error: null,
       };
 
