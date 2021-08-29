@@ -58,12 +58,11 @@ export default function Checkout() {
           <Button onClick={handleGoToOrder}>Go to order</Button>
         </>
       )}
-      {status === 'false' &&
-        !recentOrder(
-          <p>
-            Your order is <strong>not</strong> placed, please try again.
-          </p>
-        )}
+      {status === 'false' && !recentOrder && (
+        <p>
+          Your order is <strong>not</strong> placed, please try again.
+        </p>
+      )}
       {error ||
         (status === 'true' && !recentOrder && (
           <p>
