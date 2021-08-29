@@ -16,7 +16,7 @@ export default function Banners() {
   return (
     <Carousel activeIndex={index} onSelect={handleSelect} className="mb-3 mt-1">
       {banners.map((img, idx) => (
-        <Carousel.Item key={idx} className="banner-container">
+        <Carousel.Item key={idx} className="banner-container" interval={2000}>
           <img
             className="banner-image d-block mx-auto"
             src={img}
