@@ -11,6 +11,7 @@ import {
   STOP_LOADING,
   PRODUCT_ERROR,
   RESET_PROD_ERROR,
+  SEARCHED_PRODUCTS,
 } from '../actionTypes';
 
 export const getProducts = () => async (dispatch) => {
@@ -31,6 +32,18 @@ export const getVendorProducts = (id) => async (dispatch) => {
     dispatch({ type: GET_VENDOR_PRODS, payload: data });
     dispatch({ type: STOP_LOADING });
   } catch (err) {
+    console.log('Error', err.message);
+  }
+};
+
+export const getSearchedProducts = (search) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await api.getSearchedProds(search);
+    dispatch({ type: SEARCHED_PRODUCTS, payload: data });
+    dispatch({ type: STOP_LOADING });
+  } catch (err) {
+    dispatch({ type: STOP_LOADING });
     console.log('Error', err.message);
   }
 };

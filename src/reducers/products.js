@@ -10,10 +10,17 @@ import {
   STOP_LOADING,
   PRODUCT_ERROR,
   RESET_PROD_ERROR,
+  SEARCHED_PRODUCTS,
 } from '../actionTypes';
 
 const productReducer = (
-  state = { products: [], product: {}, isLoading: true, error: null },
+  state = {
+    products: [],
+    searchProds: [],
+    product: {},
+    isLoading: true,
+    error: null,
+  },
   action
 ) => {
   switch (action.type) {
@@ -28,6 +35,9 @@ const productReducer = (
 
     case GET_VENDOR_PRODS:
       return { ...state, vendorProds: action.payload, error: null };
+
+    case SEARCHED_PRODUCTS:
+      return { ...state, searchProds: action.payload, error: null };
 
     case GET_PRODUCT:
       return { ...state, product: action.payload, error: null };

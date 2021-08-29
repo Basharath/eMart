@@ -23,8 +23,9 @@ import Checkout from './components/Checkout';
 import NotFound from './components/NotFound';
 import OrderDetails from './components/OrderDetails';
 import Banners from './components/Banners';
-import 'react-toastify/dist/ReactToastify.css';
 import Account from './components/Account';
+import SearchPage from './components/SearchPage';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const App = () => {
           <VendorRoute path="/update-product/:id" component={AddProduct} />
           <VendorRoute path="/products" component={MyProducts} />
           <Route path="/checkout" exact component={Checkout} />
+          <Route path="/search" component={SearchPage} />
           <Route path="/" exact component={Home} />
           <Route path="/not-found" component={NotFound} />
           <Redirect to="/not-found" />

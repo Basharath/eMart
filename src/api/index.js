@@ -34,6 +34,8 @@ const usersUrl = '/users';
 export const getProducts = (id = '') =>
   API.get(id ? `${productsUrl}?user=${id}` : productsUrl);
 export const getProduct = (id) => API.get(`${productsUrl}/${id}`);
+export const getSearchedProds = (search) =>
+  API.get(`${productsUrl}/search?q=${search}`);
 export const addProduct = (newProduct) =>
   API.post(productsUrl, newProduct, { 'Content-Type': 'image/jpeg' });
 export const updateProduct = (id, product) =>
