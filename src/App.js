@@ -24,6 +24,7 @@ import NotFound from './components/NotFound';
 import OrderDetails from './components/OrderDetails';
 import Banners from './components/Banners';
 import 'react-toastify/dist/ReactToastify.css';
+import Account from './components/Account';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/:slug/p/:id" component={ProductDetails} />
           <ProtectedRoute path="/order/:id" component={OrderDetails} />
           <ProtectedRoute path="/orders" component={Orders} />
+          <ProtectedRoute path="/account" component={Account} />
           <ProtectedRoute path="/cart" component={Cart} user={user} />
           <VendorRoute path="/add-product" component={AddProduct} />
           <VendorRoute path="/update-product/:id" component={AddProduct} />

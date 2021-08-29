@@ -212,7 +212,7 @@ img.hover-zoom:hover {
 
 html::-webkit-scrollbar {
   display: -moz-inline-box;
-  width: 10px;
+  width: 0.8vw;
 }
 
 html::-webkit-scrollbar-track {
@@ -222,7 +222,6 @@ html::-webkit-scrollbar-track {
 
 html::-webkit-scrollbar-thumb {
   background-color: #ccc;
-  outline: 1px solid #eee;
 }
 
 .cart-container {
@@ -429,7 +428,8 @@ html::-webkit-scrollbar-thumb {
     margin-right: 10px !important;
   }
   .login-form {
-    width: 320px !important;
+    width: 310px !important;
+    padding: 15px !important;
   }
   .product-card {
     width: 290px !important;
