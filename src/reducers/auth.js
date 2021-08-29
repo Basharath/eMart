@@ -1,6 +1,6 @@
 import { AUTH, LOGOUT, AUTH_ERROR } from '../actionTypes';
 
-const authReducer = (state = { authData: null }, action) => {
+const authReducer = (state = { authData: null, error: null }, action) => {
   switch (action.type) {
     case AUTH:
       localStorage.setItem('token-emart', JSON.stringify(action.payload.token));
