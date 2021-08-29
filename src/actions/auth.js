@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { toast } from 'react-toastify';
 import * as api from '../api';
 import {
   AUTH,
@@ -6,6 +7,7 @@ import {
   AUTH_ERROR,
   START_LOADING,
   STOP_LOADING,
+  RESET_AUTH_ERROR,
 } from '../actionTypes';
 
 export const login = (userData, location, history) => async (dispatch) => {
@@ -70,5 +72,17 @@ export const getAuth = () => async (dispatch) => {
     console.log(err.message);
   }
 };
+
+export const changePassword = async (passwordData) => {
+  try {
+    const { data } = await api.changePassword(passwordData);
+    return data;
+  } catch (err) {
+    const data = err.response ? err.response.data : 'Something went wrong';
+    toast.error(data);
+  }
+};
+
+export const resetAuthError = () => ({ type: RESET_AUTH_ERROR });
 
 export const logout = () => ({ type: LOGOUT });

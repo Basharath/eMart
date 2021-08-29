@@ -65,3 +65,5 @@ export const signInUser = (userData) =>
   API.post(`${usersUrl}/signin`, userData);
 export const signUpUser = (userData) =>
   API.post(`${usersUrl}/signup`, userData);
+export const changePassword = (data) =>
+  API.post(`${usersUrl}/changepassword`, data);
