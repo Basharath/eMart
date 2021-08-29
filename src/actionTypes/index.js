@@ -13,6 +13,7 @@ export const RESET_PROD_ERROR = 'RESET_PROD_ERROR';
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const RESET_AUTH_ERROR = 'RESET_AUTH_ERROR';
 
 export const GET_CART = 'GET_CART';
 export const UPDATE_CART = 'UPDATE_CART';

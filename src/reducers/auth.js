@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT, AUTH_ERROR } from '../actionTypes';
+import { AUTH, LOGOUT, AUTH_ERROR, RESET_AUTH_ERROR } from '../actionTypes';
 
 const authReducer = (state = { authData: null, error: null }, action) => {
   switch (action.type) {
@@ -12,6 +12,9 @@ const authReducer = (state = { authData: null, error: null }, action) => {
 
     case AUTH_ERROR:
       return { ...state, error: action.payload };
+
+    case RESET_AUTH_ERROR:
+      return { ...state, error: null };
 
     default:
       return state;

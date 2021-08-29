@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
   START_LOADING,
   STOP_LOADING,
+  RESET_AUTH_ERROR,
 } from '../actionTypes';
 
 export const login = (userData, location, history) => async (dispatch) => {
@@ -81,5 +82,7 @@ export const changePassword = async (passwordData) => {
     toast.error(data);
   }
 };
+
+export const resetAuthError = () => ({ type: RESET_AUTH_ERROR });
 
 export const logout = () => ({ type: LOGOUT });

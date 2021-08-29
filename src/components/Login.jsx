@@ -7,7 +7,7 @@ import GoogleLogin from 'react-google-login';
 import Joi from 'joi-browser';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { login, signup } from '../actions/auth';
+import { login, signup, resetAuthError } from '../actions/auth';
 import FormGroup from '../common/FormGroup';
 import { AUTH_ERROR, AUTH } from '../actionTypes/index';
 
@@ -26,12 +26,8 @@ export default function Login() {
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    const errs = { ...errors, auth: authError };
-    setErrors(errs);
-  }, [authError]);
+  useEffect(() => () => dispatch(resetAuthError()), []);
 
-  // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const formSchema = {
     name: Joi.string().min(4).label('Name'),
     email: Joi.string().email().required().label('Email'),
@@ -56,11 +52,12 @@ export default function Login() {
   };
 
   const handleChange = ({ currentTarget: input }) => {
-    delete errors.auth;
     const errs = { ...errors };
     const errorMessage = validateProperty(input);
     if (errorMessage) errs[input.name] = errorMessage;
     else delete errs[input.name];
+
+    if (authError) dispatch(resetAuthError());
 
     setErrors(errs);
     setForm({ ...form, [input.name]: input.value });
@@ -199,7 +196,9 @@ export default function Login() {
             placeholder="Retype password"
           />
         )}
-        {errors.auth && <div className="text-danger mb-2">{errors.auth}</div>}
+        {authError && (
+          <div className="text-danger mb-2 text-center">{authError}</div>
+        )}
         <Button
           variant="primary"
           type="submit"
