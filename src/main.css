@@ -175,7 +175,7 @@ input[type='number'] {
 
 .product-card-clickable {
   text-decoration: none;
-  color: inherit;
+  color: initial;
 }
 
 .product-detail-mini {
@@ -277,7 +277,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 .fz-3 {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .total-amount {
@@ -310,6 +310,10 @@ html::-webkit-scrollbar-thumb {
   margin-bottom: 0 !important;
 }
 
+/* .order-item-card:hover {
+  background-color: #eee !important;
+} */
+
 .order-image-block {
   width: 120px;
   height: 80px;
@@ -338,6 +342,45 @@ html::-webkit-scrollbar-thumb {
   transform: translate(-50%, 0);
   -ms-transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
+}
+
+/* .not-found {
+  height: 50vh;
+} */
+
+.footer {
+  background-color: #242d32;
+  margin-top: 70px;
+  position: relative;
+  bottom: -40vh;
+}
+
+.footer-col {
+  margin-bottom: 15px;
+}
+
+.footer-col p {
+  margin-bottom: 2px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.footer-col p:hover {
+  color: hsl(216, 98%, 60%);
+}
+
+.footer-col p:nth-of-type(1) {
+  margin-bottom: 10px;
+  cursor: default;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.footer-address,
+.footer-address:hover {
+  color: #f8f9fa !important;
+  cursor: default;
+  margin-bottom: 5px !important;
 }
 
 @media (max-width: 1200px) {
@@ -427,6 +470,13 @@ html::-webkit-scrollbar-thumb {
   .order-amount {
     display: block;
     width: 100%;
+  }
+  .footer-col {
+    text-align: center;
+    display: none;
+  }
+  .footer-col:last-child {
+    display: block;
   }
 }
 

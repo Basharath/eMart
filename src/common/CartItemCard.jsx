@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { convertAmount } from '../utils';
 
@@ -22,10 +23,20 @@ export default function CartItemCard({ p, onRemove, onSelection }) {
   return (
     <div className="d-flex flex-column flex-md-row align-items-center border me-4 my-2 cart-col">
       <div className="inline-block ps-3 py-2 cart-image-container">
-        <img src={img} className="rounded cart-image" alt={name} />
+        <Link
+          to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${_id}`}
+          className="product-card-clickable"
+        >
+          <img src={img} className="rounded cart-image" alt={name} />
+        </Link>
       </div>
       <div className="px-3 pt-2 cart-block">
-        <p className="truncate--2 cart-product">{name}</p>
+        <Link
+          to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${_id}`}
+          className="product-card-clickable"
+        >
+          <p className="truncate--2 cart-product mb-1">{name}</p>
+        </Link>
         <p className="text-secondary">
           <span>Seller:</span>
           {seller}
