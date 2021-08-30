@@ -25,8 +25,8 @@ export default function Orders() {
             Your orders
           </p>
           <Card className="mt-3">
-            {orders?.map((o) => (
-              <OrderItemCard key={o._id} o={o} />
+            {orders?.map((o, idx) => (
+              <OrderItemCard key={o._id + idx} o={o} />
             ))}
           </Card>
         </div>
@@ -66,7 +66,7 @@ const OrderItemCard = ({ o }) => {
         handleConfirm={handleDelete}
         order
       />
-      <p className="p-2 bg-light d-flex justify-content-between">
+      <p className="p-2 bg-light d-flex justify-content-between mb-0">
         <span>Ordered on: {dayjs(date).format('DD MMM YYYY')}</span>
         <span className="text-end">
           {dayjs(new Date()) < dayjs(deliveryDate)
@@ -74,23 +74,25 @@ const OrderItemCard = ({ o }) => {
             : `Delivered on: ${dayjs(deliveryDate).format('DD MMM YYYY')}`}
         </span>
       </p>
-      <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom pb-2 pt-2 fz-3">
-        <div className="d-flex ps-3 align-self-center order-image-block">
-          {images.map((i, idx) => (
-            <img
-              key={idx}
-              src={i}
-              className="rounded"
-              alt={name}
-              style={{
-                maxWidth: `${100 / n}%`,
-                height: `${100}%`,
-                objectFit: 'contain',
-                margin: 'auto',
-              }}
-            />
-          ))}
-        </div>
+      <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom pb-2 pt-3 fz-3">
+        <Link to={`/order/${id}`}>
+          <div className="d-flex ps-3 align-self-center order-image-block">
+            {images.map((i, idx) => (
+              <img
+                key={idx}
+                src={i}
+                className="rounded"
+                alt={name}
+                style={{
+                  maxWidth: `${100 / n}%`,
+                  height: `${100}%`,
+                  objectFit: 'contain',
+                  margin: 'auto',
+                }}
+              />
+            ))}
+          </div>
+        </Link>
         <div className="px-3 pt-1 orders-block w-100">
           <Link to={`/order/${id}`} className="product-card-clickable">
             <p className="truncate--2 mb-0">{name}</p>{' '}

@@ -50,12 +50,17 @@ const OrderItemCard = ({ p }) => {
   return (
     <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom mb-2 pb-2 pt-2 fz-3">
       <div className="inline-block ps-3 align-self-center">
-        <img
-          src={img}
-          className="rounded"
-          alt={name}
-          style={{ width: '100px', height: '70px' }}
-        />
+        <Link
+          to={`/${name.replaceAll('/', '-').split(' ').join('-')}/p/${id}`}
+          className="product-card-clickable"
+        >
+          <img
+            src={img}
+            className="rounded"
+            alt={name}
+            style={{ width: '100px', height: '70px' }}
+          />
+        </Link>
       </div>
       <div className="px-3 pt-1 order-block">
         <Link
