@@ -74,9 +74,9 @@ const OrderItemCard = ({ o }) => {
             : `Delivered on: ${dayjs(deliveryDate).format('DD MMM YYYY')}`}
         </span>
       </p>
-      <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom pb-2 pt-3 fz-3">
-        <Link to={`/order/${id}`}>
-          <div className="d-flex ps-3 align-self-center order-image-block">
+      <div className="d-flex flex-column flex-md-row align-items-md-start order-item-card border-bottom pb-2 pt-2 fz-3">
+        <div className="d-flex ps-3 align-self-center order-image-block">
+          <Link to={`/order/${id}`}>
             {images.map((i, idx) => (
               <img
                 key={idx}
@@ -91,8 +91,8 @@ const OrderItemCard = ({ o }) => {
                 }}
               />
             ))}
-          </div>
-        </Link>
+          </Link>
+        </div>
         <div className="px-3 pt-1 orders-block w-100">
           <Link to={`/order/${id}`} className="product-card-clickable">
             <p className="truncate--2 mb-0">{name}</p>{' '}

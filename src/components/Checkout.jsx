@@ -59,13 +59,13 @@ export default function Checkout() {
         </>
       )}
       {status === 'false' && !recentOrder && (
-        <p>
+        <p className="text-center">
           Your order is <strong>not</strong> placed, please try again.
         </p>
       )}
       {error ||
         (status === 'true' && !recentOrder && (
-          <p>
+          <p className="text-center">
             {error
               ? 'Something is not correct'
               : 'Your order is getting processed...'}
