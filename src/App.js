@@ -26,6 +26,7 @@ import Banners from './components/Banners';
 import Account from './components/Account';
 import SearchPage from './components/SearchPage';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './components/Footer';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ const App = () => {
           <Redirect to="/not-found" />
         </Switch>
       </Container>
+      <Footer />
     </>
   );
 };
