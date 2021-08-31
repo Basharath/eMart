@@ -13,6 +13,7 @@ export default function SearchPage() {
   const search = new URLSearchParams(useLocation().search).get('q') || '';
   const [sortedProducts, setSortedProducts] = useState(searchProds);
   const [show, setShow] = useState(false);
+  const [sortText, setSortText] = useState('');
 
   useEffect(() => {
     if (!searchProds.length) dispatch(getSearchedProducts(search));
@@ -26,12 +27,14 @@ export default function SearchPage() {
     const arr = [...sortedProducts];
     arr.sort((a, b) => a.offer - b.offer);
     setSortedProducts([...arr]);
+    setSortText('Price (Low - High)');
   };
 
   const priceHighToLow = () => {
     const arr = [...sortedProducts];
     arr.sort((a, b) => b.offer - a.offer);
     setSortedProducts([...arr]);
+    setSortText('Price (High - Low)');
   };
 
   const maxDiscount = () => {
@@ -40,6 +43,7 @@ export default function SearchPage() {
       (a, b) => (b.price - +b.offer) / b.price - (a.price - +a.offer) / a.price
     );
     setSortedProducts([...arr]);
+    setSortText('Max. Discount');
   };
 
   const minDiscount = () => {
@@ -48,6 +52,7 @@ export default function SearchPage() {
       (a, b) => (a.price - +a.offer) / a.price - (b.price - +b.offer) / b.price
     );
     setSortedProducts([...arr]);
+    setSortText('Min. Discount');
   };
 
   return (
@@ -62,7 +67,7 @@ export default function SearchPage() {
         </span>
         <div className="d-block w-100 ms-3 border-top border-secondary" />
         <NavDropdown
-          title="Sort by"
+          title={sortText ? `${sortText}` : `Sort by`}
           renderMenuOnMount
           // className="inline text-end d-flex flex-column align-items-end pe-0 sort-dropdown"
           className="sort-dropdown"
