@@ -11,7 +11,7 @@ eMart is a full stack MERN application which enables users to buy and sell produ
 
 ### The vendors can: 
 1. Signup and login into their account using any email
-2. Add, modify, delete their products along with products details and images(max. 4)
+2. Add, modify, delete their products listed along with product details and images(max. 4)
 3. Place orders just like the normal users
 
 
